@@ -1,0 +1,260 @@
+<?php
+session_start();
+include "koneksi.php";
+
+// Cek jika sudah login, redirect ke dashboard
+if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
+    header("Location: index_admin.php");
+    exit();
+}
+
+// Proses login
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    
+    // Query untuk mencari admin
+    $query = "SELECT * FROM admin WHERE username = '$username'";
+    $result = mysqli_query($conn, $query);
+    
+    if (mysqli_num_rows($result) == 1) {
+        $admin = mysqli_fetch_assoc($result);
+        
+        // Verifikasi password (plain text untuk sekarang)
+        if ($password === $admin['password']) {
+            // Login berhasil
+            $_SESSION['admin_logged_in'] = true;
+            $_SESSION['admin_id'] = $admin['id_admin'];
+            $_SESSION['admin_username'] = $admin['username'];
+            $_SESSION['success_message'] = "Login berhasil! Selamat datang, " . $admin['username'];
+            header("Location: index_admin.php");
+            exit();
+        } else {
+            $error_message = "Password salah!";
+        }
+    } else {
+        $error_message = "Username tidak ditemukan!";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waver - Admin Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0057ff;
+            --secondary: #007bff;
+            --dark: #001b44;
+            --light: #f8faff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-header {
+            background: linear-gradient(135deg, var(--dark) 0%, #002855 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .login-header img {
+            width: 80px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        .login-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .login-header p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .login-body {
+            padding: 40px 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-family: "Inter", sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 87, 255, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-family: "Inter", sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 87, 255, 0.3);
+        }
+
+        .alert {
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e1e5e9;
+        }
+
+        .login-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .input-icon {
+            position: relative;
+        }
+
+        .input-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+
+        .input-icon .form-control {
+            padding-left: 45px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <img src="img/tsunamelogo.png" alt="Waver Logo">
+            <h1>Admin Panel</h1>
+            <p>Masuk ke sistem administrasi</p>
+        </div>
+        
+        <div class="login-body">
+            <?php if (isset($error_message)): ?>
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle"></i> <?php echo $error_message; ?>
+                </div>
+            <?php endif; ?>
+
+            <form method="POST" action="">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="username" name="username" class="form-control" placeholder="Masukkan username" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Masukkan password" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> Masuk
+                </button>
+            </form>
+            
+            <div class="login-footer">
+                <a href="index_tsunami_user.php">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Halaman User
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Focus pada input username saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('username').focus();
+        });
+    </script>
+</body>
+</html>
