@@ -4,7 +4,7 @@ include "koneksi.php";
 
 // Cek jika sudah login, redirect ke dashboard
 if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
-    header("Location: index_admin.php");
+    header("Location: #"); 
     exit();
 }
 
