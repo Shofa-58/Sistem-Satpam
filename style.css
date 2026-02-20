@@ -158,85 +158,108 @@ body {
 
 :root {
     --navy: #0d1b2a;
-    --navy-soft: #1b263b;
+    --navy-light: #1b263b;
     --yellow: #ffc107;
-    --black: #111111;
+    --black: #111;
+    --white: #ffffff;
 }
 
-/* Background halaman */
+/* Body */
 body {
-    background: linear-gradient(135deg, #0d1b2a, #1b263b);
-    min-height: 100vh;
-    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, var(--navy), var(--navy-light));
+    font-family: 'Segoe UI', sans-serif;
+    padding-top: 90px; /* biar gak ketiban navbar */
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--navy) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+.navbar-brand {
+    color: var(--yellow) !important;
+    font-weight: 700;
+}
+
+.logo-navbar {
+    height: 40px;
 }
 
 /* Card Form */
 .card {
-    border-radius: 16px;
-    background: #ffffff;
-    padding: 30px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    border: none;
+    border-radius: 18px;
+    background-color: var(--white);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
 }
 
 /* Judul */
 h3 {
     color: var(--navy);
+    font-weight: 700;
     position: relative;
 }
 
 h3::after {
     content: "";
-    width: 60px;
+    width: 70px;
     height: 4px;
     background: var(--yellow);
     display: block;
-    margin: 8px auto 0;
+    margin: 10px auto 0;
     border-radius: 5px;
 }
 
-/* Input & Select Styling */
-.form-control,
-.form-select {
-    border-radius: 10px;
-    padding: 10px 14px;
-    border: 2px solid #e0e0e0;
-    transition: all 0.3s ease;
-    background-color: #f8f9fa;
-}
-
-/* Efek focus */
-.form-control:focus,
-.form-select:focus {
-    border-color: var(--navy);
-    background-color: #ffffff;
-    box-shadow: 0 0 0 0.2rem rgba(13, 27, 42, 0.2);
-}
-
-/* Label lebih tegas */
+/* Label */
 .form-label {
     font-weight: 600;
     color: var(--black);
+    margin-bottom: 6px;
 }
 
-/* Section upload */
+/* Input */
+.form-control,
+.form-select {
+    border-radius: 10px;
+    border: 2px solid #e0e0e0;
+    padding: 10px 14px;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--navy);
+    background-color: var(--white);
+    box-shadow: 0 0 0 0.2rem rgba(13,27,42,0.2);
+}
+
+/* Radio */
+.form-check-input:checked {
+    background-color: var(--navy);
+    border-color: var(--navy);
+}
+
+/* Section divider */
 hr {
     border-top: 2px solid var(--navy);
 }
 
-/* Button Navy + Yellow Hover */
-.btn-navy {
+/* Button */
+.btn-primary {
     background-color: var(--navy);
-    color: white;
     border: none;
-    border-radius: 10px;
-    padding: 10px;
     font-weight: 600;
+    border-radius: 12px;
+    padding: 10px;
     transition: all 0.3s ease;
 }
 
-.btn-navy:hover {
+.btn-primary:hover {
     background-color: var(--yellow);
     color: var(--black);
     transform: translateY(-2px);
 }
+
 
