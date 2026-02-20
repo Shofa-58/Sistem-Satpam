@@ -2,38 +2,68 @@
 session_start();
 include "koneksi.php";
 
-// Cek jika sudah login, redirect ke dashboard
-if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
-    header("Location: #"); 
+if(isset($_SESSION['role'])){
+    switch($_SESSION['role']){
+        case 'admin':
+            header("Location: dashboard_admin.php");
+            break;
+        case 'siswa':
+            header("Location: dashboard_siswa.php");
+            break;
+        case 'publikasi':
+            header("Location: dashboard_publikasi.php");
+            break;
+        case 'kepala_keamanan':
+            header("Location: dashboard_kepala.php");
+            break;
+    }
     exit();
 }
 
-// Proses login
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = $_POST['password'];
-    
-    // Query untuk mencari admin
-    $query = "SELECT * FROM admin WHERE username = '$username'";
-    $result = mysqli_query($conn, $query);
-    
-    if (mysqli_num_rows($result) == 1) {
-        $admin = mysqli_fetch_assoc($result);
-        
-        // Verifikasi password (plain text untuk sekarang)
-        if ($password === $admin['password']) {
-            // Login berhasil
-            $_SESSION['admin_logged_in'] = true;
-            $_SESSION['admin_id'] = $admin['id_admin'];
-            $_SESSION['admin_username'] = $admin['username'];
-            $_SESSION['success_message'] = "Login berhasil! Selamat datang, " . $admin['username'];
-            header("Location: index_admin.php");
+
+    $query = mysqli_query($conn, 
+        "SELECT * FROM akun WHERE username='$username'");
+
+    if(mysqli_num_rows($query) == 1){
+
+        $akun = mysqli_fetch_assoc($query);
+
+        // Jika masih plain text
+        if($password === $akun['password']){
+
+        // Kalau nanti pakai hash, ganti jadi:
+        // if(password_verify($password, $akun['password'])){
+
+            $_SESSION['id_akun'] = $akun['id_akun'];
+            $_SESSION['username'] = $akun['username'];
+            $_SESSION['role'] = $akun['role'];
+
+            switch($akun['role']){
+                case 'admin':
+                    header("Location: dashboard_admin.php");
+                    break;
+                case 'siswa':
+                    header("Location: dashboard_siswa.php");
+                    break;
+                case 'publikasi':
+                    header("Location: dashboard_publikasi.php");
+                    break;
+                case 'kepala_keamanan':
+                    header("Location: dashboard_kepala.php");
+                    break;
+            }
             exit();
-        } else {
-            $error_message = "Password salah!";
+
+        }else{
+            $error = "Password salah!";
         }
-    } else {
-        $error_message = "Username tidak ditemukan!";
+
+    }else{
+        $error = "Username tidak ditemukan!";
     }
 }
 ?>
@@ -41,220 +71,137 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Waver - Admin Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #0057ff;
-            --secondary: #007bff;
-            --dark: #001b44;
-            --light: #f8faff;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Sistem Satpam</title>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-        body {
-            font-family: "Inter", sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+<style>
+body{
+    background:#0d1b2a;
+    font-family:'Segoe UI',sans-serif;
+    margin:0;
+}
 
-        .login-container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            width: 100%;
-            max-width: 400px;
-        }
+/* NAVBAR */
+.navbar{
+    background:#001f3f !important;
+}
 
-        .login-header {
-            background: linear-gradient(135deg, var(--dark) 0%, #002855 100%);
-            color: white;
-            padding: 40px 30px;
-            text-align: center;
-        }
+.navbar-brand img{
+    width:35px;
+}
 
-        .login-header img {
-            width: 80px;
-            height: auto;
-            margin-bottom: 15px;
-        }
+/* WRAPPER */
+.login-wrapper{
+    min-height:calc(100vh - 70px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px 15px;
+}
 
-        .login-header h1 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
+/* BOX */
+.login-box{
+    background:#1b263b;
+    padding:35px;
+    border-radius:12px;
+    width:100%;
+    max-width:420px;
+    color:white;
+    box-shadow:0 8px 25px rgba(0,0,0,0.4);
+}
 
-        .login-header p {
-            font-size: 14px;
-            opacity: 0.8;
-        }
+.login-box h3{
+    text-align:center;
+    margin-bottom:25px;
+    color:#ffd60a;
+    font-weight:600;
+}
 
-        .login-body {
-            padding: 40px 30px;
-        }
+/* INPUT */
+.form-control{
+    background:#0d1b2a;
+    border:1px solid #415a77;
+    color:white;
+}
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+.form-control:focus{
+    background:#0d1b2a;
+    color:white;
+    border-color:#ffd60a;
+    box-shadow:none;
+}
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--dark);
-            font-size: 14px;
-        }
+/* BUTTON */
+.btn-login{
+    background:#ffd60a;
+    border:none;
+    color:black;
+    font-weight:600;
+}
 
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 10px;
-            font-family: "Inter", sans-serif;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
+.btn-login:hover{
+    background:#ffc300;
+}
 
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 87, 255, 0.1);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            font-family: "Inter", sans-serif;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 87, 255, 0.3);
-        }
-
-        .alert {
-            padding: 12px 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-
-        .alert-danger {
-            background: rgba(220, 53, 69, 0.1);
-            border: 1px solid rgba(220, 53, 69, 0.2);
-            color: #dc3545;
-        }
-
-        .login-footer {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #e1e5e9;
-        }
-
-        .login-footer a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .login-footer a:hover {
-            text-decoration: underline;
-        }
-
-        .input-icon {
-            position: relative;
-        }
-
-        .input-icon i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6c757d;
-        }
-
-        .input-icon .form-control {
-            padding-left: 45px;
-        }
-    </style>
+.alert{
+    font-size:14px;
+}
+</style>
 </head>
-<body>
-    <div class="login-container">
-        <div class="login-header">
-            <img src="img/tsunamelogo.png" alt="Waver Logo">
-            <h1>Admin Panel</h1>
-            <p>Masuk ke sistem administrasi</p>
-        </div>
-        
-        <div class="login-body">
-            <?php if (isset($error_message)): ?>
-                <div class="alert alert-danger">
-                    <i class="fas fa-exclamation-circle"></i> <?php echo $error_message; ?>
-                </div>
-            <?php endif; ?>
 
-            <form method="POST" action="">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <div class="input-icon">
-                        <i class="fas fa-user"></i>
-                        <input type="text" id="username" name="username" class="form-control" placeholder="Masukkan username" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <div class="input-icon">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="password" name="password" class="form-control" placeholder="Masukkan password" required>
-                    </div>
-                </div>
-                
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-sign-in-alt"></i> Masuk
-                </button>
-            </form>
-            
-            <div class="login-footer">
-                <a href="index_tsunami_user.php">
-                    <i class="fas fa-arrow-left"></i> Kembali ke Halaman User
-                </a>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="dashboard.php">
+      <img src="img/logo.png" class="me-2">
+      <span class="fw-bold">Gemilang</span>
+    </a>
+
+    <div class="ms-auto">
+      <a href="dashboard.php" class="btn btn-sm btn-outline-warning">
+        Kembali
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- LOGIN AREA -->
+<div class="login-wrapper">
+
+    <div class="login-box">
+
+        <h3>Login Sistem</h3>
+
+        <?php if(isset($error)): ?>
+            <div class="alert alert-danger">
+                <?php echo $error; ?>
             </div>
-        </div>
+        <?php endif; ?>
+
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-control" required>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-login w-100">
+                Login
+            </button>
+        </form>
+
     </div>
 
-    <script>
-        // Focus pada input username saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('username').focus();
-        });
-    </script>
+</div>
+
 </body>
 </html>

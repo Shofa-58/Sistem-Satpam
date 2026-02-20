@@ -1,7 +1,14 @@
 <?php
 include "koneksi.php";
 
-$query = mysqli_query($conn, "SELECT * FROM informasi_diklat ORDER BY id_info DESC LIMIT 1");
+$query = mysqli_query($conn, "
+    SELECT informasi_diklat.*, periode_diklat.tanggal_mulai, periode_diklat.tanggal_selesai
+    FROM informasi_diklat
+    JOIN periode_diklat 
+        ON informasi_diklat.id_periode = periode_diklat.id_periode
+    ORDER BY informasi_diklat.id_info DESC
+    LIMIT 1
+");
 $data  = mysqli_fetch_assoc($query);
 
 /* ===== Function Angka ke Romawi ===== */
@@ -41,8 +48,12 @@ $bulan_estimasi = isset($data['estimasi_bulan'])
     ? $bulan_list[$data['estimasi_bulan']] 
     : "-";
 
-$tanggal_fix = !empty($data['tanggal_fix']) 
-    ? date('d F Y', strtotime($data['tanggal_fix'])) 
+$tanggal_mulai = !empty($data['tanggal_mulai'])
+    ? date('d F Y', strtotime($data['tanggal_mulai']))
+    : "-";
+
+$tanggal_selesai = !empty($data['tanggal_selesai'])
+    ? date('d F Y', strtotime($data['tanggal_selesai']))
     : "-";
 
 $tempat = !empty($data['tempat']) 
@@ -146,7 +157,12 @@ body{
     <div class="section-card">
         <div class="section-title">I. PELAKSANAAN</div>
         <p>
-            Tanggal Fix: <strong><?php echo $tanggal_fix; ?></strong><br>
+            Tanggal: 
+<strong>
+    <?php echo $tanggal_mulai; ?> 
+    - 
+    <?php echo $tanggal_selesai; ?>
+</strong><br>
             Estimasi Bulan: <strong><?php echo $bulan_estimasi; ?></strong>
         </p>
     </div>
