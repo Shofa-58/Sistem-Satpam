@@ -31,7 +31,7 @@
     <div class="collapse navbar-collapse" id="navmenu">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#">Beranda</a>
+          <a class="nav-link" href="dashboard.php">Beranda</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="publikasi.php">Publikasi</a>
