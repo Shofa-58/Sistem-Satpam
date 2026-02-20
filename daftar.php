@@ -56,6 +56,11 @@
                         </div>
 
                         <div class="mb-3">
+                            <label class="form-label">Tanggal Lahir</label>
+                            <input type="date" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
                             <label class="form-label">Jenis Kelamin</label>
                             <select class="form-select" required>
                                 <option selected disabled>Pilih</option>
@@ -74,15 +79,6 @@
                                 <option>Hindu</option>
                                 <option>Buddha</option>
                                 <option>Konghucu</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="form-label">Program Pelatihan</label>
-                            <select class="form-select" required>
-                                <option selected disabled>Pilih Program</option>
-                                <option>Gada Pratama</option>
-                                <option>Gada Madya</option>
                             </select>
                         </div>
 

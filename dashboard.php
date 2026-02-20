@@ -52,7 +52,7 @@
         <p class="lead mt-3 text-warning">
             Siapkan karier keamanan Anda bersama pelatihan resmi dan terstandarisasi.
         </p>
-        <a href="daftar.html" class="btn btn-warning btn-lg mt-4 px-4">Daftar Sekarang</a>
+        <a href="daftar.php" class="btn btn-warning btn-lg mt-4 px-4">Daftar Sekarang</a>
     </div>
 </section>
 
