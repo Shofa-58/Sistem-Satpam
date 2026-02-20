@@ -13,7 +13,7 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container">
-    <a class="navbar-brand fw-bold d-flex align-items-center" href="dashboard.html">
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="dashboard.php">
         <img src="img/logo.png" alt="Logo" class="logo-navbar">
         <span class="ms-2">Gemilang</span>
     </a>

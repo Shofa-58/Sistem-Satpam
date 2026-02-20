@@ -15,7 +15,7 @@
   <div class="container">
 
     <!-- Logo -->
-    <a class="navbar-brand d-flex align-items-center" href="dashboard.html">
+    <a class="navbar-brand d-flex align-items-center" href="dashboard.php">
       <img src="img/logo.png" alt="Logo" class="logo-navbar">
       <span class="fw-bold ms-2">Gemilang</span>
     </a>
@@ -34,10 +34,10 @@
           <a class="nav-link" href="#">Beranda</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="publikasi.html">Publikasi</a>
+          <a class="nav-link" href="publikasi.php">Publikasi</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-warning" href="login.html">Login</a>
+          <a class="nav-link text-warning" href="login.php">Login</a>
         </li>
       </ul>
     </div>
