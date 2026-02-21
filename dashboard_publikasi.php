@@ -78,47 +78,18 @@ document.addEventListener("DOMContentLoaded", function(){
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Publikasi</title>
 
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/dashboard_publikasi.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<style>
-body{
-    background:#0d1b2a;
-    color:white;
-}
-
-.navbar{
-    background:#001f3f !important;
-}
-
-.logo-navbar{
-    width:40px;
-}
-
-.card-form{
-    background:#1b263b;
-    padding:30px;
-    border-radius:15px;
-}
-
-.btn-primary{
-    background:#ffd60a;
-    border:none;
-    color:black;
-    font-weight:bold;
-}
-
-.btn-primary:hover{
-    background:#ffc300;
-}
-</style>
 </head>
-<body>
+<body class="dashboard_publikasi-page">
 
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
   <div class="container">
 
-    <a class="navbar-brand d-flex align-items-center" href="dashboard.php">
+    <a class="navbar-brand d-flex align-items-center" href="dashboard_umum.php">
       <img src="img/logo.png" class="logo-navbar">
       <span class="fw-bold ms-2">Gemilang</span>
     </a>
@@ -132,7 +103,7 @@ body{
     <div class="collapse navbar-collapse" id="navmenu">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" href="dashboard.php">Dashboard</a>
+          <a class="nav-link" href="dashboard_umum.php">Dashboard</a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="publikasi.php">Publikasi</a>
@@ -146,57 +117,65 @@ body{
   </div>
 </nav>
 
-<div class="container" style="margin-top:120px; max-width:700px;">
+<!-- CONTENT -->
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
 
-    <div class="card-form shadow">
-        <h4 class="mb-4 text-warning fw-bold">Upload Publikasi Diklat</h4>
+      <div class="card-form shadow-lg">
+        <h4 class="mb-4 text-warning fw-bold text-center">
+          Upload Publikasi Diklat
+        </h4>
 
         <form method="POST" enctype="multipart/form-data">
 
-            <!-- ANGKATAN -->
-            <div class="mb-3">
-                <label class="form-label">Pilih Angkatan</label>
-                <select name="id_periode" class="form-select" required>
-                    <option value="">-- Pilih Angkatan --</option>
-                    <?php while($p = mysqli_fetch_assoc($periode)) : ?>
-                        <option value="<?= $p['id_periode']; ?>">
-                            Gelombang <?= $p['gelombang']; ?> - <?= $p['tahun']; ?>
-                        </option>
-                    <?php endwhile; ?>
-                </select>
-            </div>
+          <!-- ANGKATAN -->
+          <div class="mb-3">
+            <label class="form-label">Pilih Angkatan</label>
+            <select name="id_periode" class="form-select" required>
+              <option value="">-- Pilih Angkatan --</option>
+              <?php while($p = mysqli_fetch_assoc($periode)) : ?>
+                <option value="<?= $p['id_periode']; ?>">
+                  Gelombang <?= $p['gelombang']; ?> - <?= $p['tahun']; ?>
+                </option>
+              <?php endwhile; ?>
+            </select>
+          </div>
 
-            <!-- ESTIMASI BULAN -->
-            <div class="mb-3">
-                <label class="form-label">Estimasi Bulan</label>
-                <select name="estimasi_bulan" class="form-select" required>
-                    <option value="">-- Pilih Bulan --</option>
-                    <?php for($i=1; $i<=12; $i++) : ?>
-                        <option value="<?= $i; ?>"><?= $i; ?></option>
-                    <?php endfor; ?>
-                </select>
-            </div>
+          <!-- ESTIMASI BULAN -->
+          <div class="mb-3">
+            <label class="form-label">Estimasi Bulan</label>
+            <select name="estimasi_bulan" class="form-select" required>
+              <option value="">-- Pilih Bulan --</option>
+              <?php for($i=1; $i<=12; $i++) : ?>
+                <option value="<?= $i; ?>"><?= $i; ?></option>
+              <?php endfor; ?>
+            </select>
+          </div>
 
-            <!-- TEMPAT -->
-            <div class="mb-3">
-                <label class="form-label">Tempat Pelatihan</label>
-                <input type="text" name="tempat" class="form-control" required>
-            </div>
+          <!-- TEMPAT -->
+          <div class="mb-3">
+            <label class="form-label">Tempat Pelatihan</label>
+            <input type="text" name="tempat" class="form-control" required>
+          </div>
 
-            <!-- UPLOAD -->
-            <div class="mb-4">
-                <label class="form-label">Upload Brosur</label>
-                <input type="file" name="brosur" class="form-control" required>
-            </div>
+          <!-- UPLOAD -->
+          <div class="mb-4">
+            <label class="form-label">Upload Brosur</label>
+            <input type="file" name="brosur" class="form-control" required>
+          </div>
 
-            <button type="submit" name="submit" class="btn btn-primary w-100">
-                Upload Publikasi
-            </button>
+          <button type="submit" name="submit" class="btn btn-primary w-100">
+            Upload Publikasi
+          </button>
 
         </form>
-    </div>
+      </div>
 
+    </div>
+  </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

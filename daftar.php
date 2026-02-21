@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         uploadDokumen("skck", "skck", $id_peserta, $folder, $conn, $allowed_ext);
         uploadDokumen("pembayaran", "pembayaran", $id_peserta, $folder, $conn, $allowed_ext);
 
-        header("Location: dashboard.php");
+        header("Location: dashboard_umum.php");
         exit;
 
     } else {
@@ -74,20 +74,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Pendaftaran - Gemilang</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/daftar.css">
 </head>
 
-<body>
+<body class="daftar-page">
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-  <div class="container">
-    <a class="navbar-brand fw-bold d-flex align-items-center" href="dashboard.php">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container daftar-container">
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="dashboard_umum.php">
         <img src="img/logo.png" alt="Logo" class="logo-navbar">
         <span class="ms-2">Gemilang</span>
     </a>
@@ -96,18 +93,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!-- Form Section -->
 <section class="py-5">
-    <div class="container">
+    <div class="container daftar-container">
         <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-7">
+            <div class="col-12 col-md-8 col-lg-7">
 
-                <div class="card p-4">
+                <div class="form-card">
 
-                    <h3 class="text-center mb-4">Form Pendaftaran</h3>
+                    <h3 class="form-title text-center mb-4">Form Pendaftaran</h3>
 
                     <form action="daftar.php" method="POST" enctype="multipart/form-data">
 
                         <!-- DATA DIRI -->
-                        <h5 class="fw-bold mb-3">Data Diri</h5>
+                        <h5 class="section-label">Data Diri</h5>
 
                         <div class="mb-3">
                             <label class="form-label">Nama Lengkap</label>
@@ -172,7 +169,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <hr>
 
                         <!-- DOKUMEN -->
-                        <h5 class="fw-bold mt-4 mb-3">Upload Dokumen</h5>
+                        <h5 class="section-label">Upload Dokumen</h5>
 
                         <div class="mb-3">
                             <label class="form-label">Upload KTP</label>

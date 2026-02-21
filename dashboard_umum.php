@@ -5,17 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diklat Satpam Profesional</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/dashboard_umum.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 </head>
-<body>
+<body class="dashboard_umum-page">
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container">
 
     <!-- Logo -->
-    <a class="navbar-brand d-flex align-items-center" href="dashboard.php">
+    <a class="navbar-brand d-flex align-items-center" href="dashboard_umum.php">
       <img src="img/logo.png" alt="Logo" class="logo-navbar">
       <span class="fw-bold ms-2">Gemilang</span>
     </a>
@@ -31,7 +32,7 @@
     <div class="collapse navbar-collapse" id="navmenu">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" href="dashboard.php">Beranda</a>
+          <a class="nav-link" href="dashboard_umum.php">Beranda</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="publikasi.php">Publikasi</a>

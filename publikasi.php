@@ -70,39 +70,19 @@ $brosur = !empty($data['brosur_path'])
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Publikasi Diklat</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/publikasi.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<style>
-body{
-    background:#0d1b2a;
-    color:white;
-}
-.section-card{
-    background:#1b263b;
-    border-radius:15px;
-    padding:30px;
-    margin-bottom:30px;
-}
-.section-title{
-    color:#ffd60a;
-    font-weight:bold;
-    margin-bottom:20px;
-}
-.hero-title{
-    font-weight:bold;
-    font-size:1.5rem;
-}
-</style>
 </head>
 
-<body>
+<body class="publikasi-page">
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container">
 
     <!-- Logo -->
-    <a class="navbar-brand d-flex align-items-center" href="dashboard.php">
+    <a class="navbar-brand d-flex align-items-center" href="dashboard_umum.php">
       <img src="img/logo.png" alt="Logo Gemilang" 
            width="40" height="40"
            class="me-2">
@@ -123,7 +103,7 @@ body{
     <div class="collapse navbar-collapse" id="navmenu">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" href="dashboard.php">Beranda</a>
+          <a class="nav-link" href="dashboard_umum.php">Beranda</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="publikasi.php">Publikasi</a>
@@ -137,7 +117,7 @@ body{
   </div>
 </nav>
 
-<div class="container" style="margin-top:120px; max-width:900px;">
+<div class="container publikasi-container">
 
     <!-- HERO -->
     <div class="text-center mb-5">
