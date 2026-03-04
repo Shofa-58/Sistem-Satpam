@@ -2,10 +2,10 @@
 session_start();
 require 'koneksi.php';
 
-if (!isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
-    header("Location: login.php");
-    exit;
-}
+// if (!isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
+//     header("Location: login.php");
+//     exit;
+// }
 
 if (isset($_POST['submit'])) {
 
@@ -49,7 +49,7 @@ if (isset($_POST['submit'])) {
 
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="dashboard.php">Admin Panel</a>
+    <a class="navbar-brand fw-bold" href="dashboard_umum.php">Admin Panel</a>
   </div>
 </nav>
 

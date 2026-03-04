@@ -1,6 +1,4 @@
 <?php
-// koneksi.php
-// Sesuaikan credential sesuai environmentmu
 $host = "localhost";
 $user = "root";
 $pass = "";
