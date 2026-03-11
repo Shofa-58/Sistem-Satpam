@@ -56,6 +56,7 @@ $data = mysqli_query($conn, "
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="admin_status_siswa.php">Kelola Status</a></li>
+                        <li><a class="dropdown-item" href="admin_persiapan_diklat.php">Persiapan Diklat</a></li>
                         <li><a class="dropdown-item" href="admin_buat_akun.php">Buat Akun</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item text-danger" href="logout.php">Logout</a></li>

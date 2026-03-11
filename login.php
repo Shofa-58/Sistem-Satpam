@@ -11,7 +11,7 @@ if(isset($_SESSION['role'])){
             header("Location: dashboard_admin.php");
             break;
         case 'siswa':
-            header("Location: dashboard_siswa.php");
+            header("Location: dashboard_peserta.php");
             break;
         case 'publikasi':
             header("Location: dashboard_publikasi.php");
@@ -50,7 +50,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                     header("Location: dashboard_admin.php");
                     break;
                 case 'siswa':
-                    header("Location: dashboard_siswa.php");
+                    header("Location: dashboard_peserta.php");
                     break;
                 case 'publikasi':
                     header("Location: dashboard_publikasi.php");
