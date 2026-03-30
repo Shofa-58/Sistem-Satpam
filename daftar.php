@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "INSERT INTO peserta
             (nama, alamat, no_telp, email, tgl_lahir, agama,
              jenis_kelamin, status, id_akun, tinggi_badan, berat_badan)
-              VALUES 
+         VALUES
             ('$nama','$alamat','$no_telp','$email','$tgl_lahir','$agama',
              '$jenis_kelamin','calon','$id_akun','$tinggi_badan','$berat_badan')"
     );
@@ -73,39 +73,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         goto tampilForm;
     }
 
-        $id_peserta = mysqli_insert_id($conn);
+    $id_peserta = mysqli_insert_id($conn);
 
     /* ===================================================
        6. UPLOAD DOKUMEN
     ==================================================== */
-        $folder = "uploads/" . $id_peserta;
-        if (!is_dir($folder)) {
-            mkdir($folder, 0777, true);
-        }
+    $folder = "uploads/" . $id_peserta;
+    if (!is_dir($folder)) {
+        mkdir($folder, 0777, true);
+    }
 
     $allowed_ext = ['jpg', 'jpeg', 'png', 'pdf'];
 
-        function uploadDokumen($input_name, $jenis, $id_peserta, $folder, $conn, $allowed_ext) {
-            if (!empty($_FILES[$input_name]['name'])) {
-                $file_name = $_FILES[$input_name]['name'];
-                $tmp       = $_FILES[$input_name]['tmp_name'];
-                $ext       = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+    function uploadDokumen($input_name, $jenis, $id_peserta, $folder, $conn, $allowed_ext) {
+        if (!empty($_FILES[$input_name]['name'])) {
+            $file_name = $_FILES[$input_name]['name'];
+            $tmp       = $_FILES[$input_name]['tmp_name'];
+            $ext       = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
-                if (in_array($ext, $allowed_ext)) {
-                    $new_name  = $jenis . "." . $ext;
-                    $file_path = $folder . "/" . $new_name;
-                    move_uploaded_file($tmp, $file_path);
+            if (in_array($ext, $allowed_ext)) {
+                $new_name  = $jenis . "." . $ext;
+                $file_path = $folder . "/" . $new_name;
+                move_uploaded_file($tmp, $file_path);
 
-                    $tgl = date("Y-m-d H:i:s");
+                $tgl = date("Y-m-d H:i:s");
                 mysqli_query($conn,
                     "INSERT INTO dokumen_pendaftaran
                         (jenis, file_path, status_verifikasi, tgl_upload, id_peserta)
-                        VALUES
+                     VALUES
                         ('$jenis','$file_path','pending','$tgl','$id_peserta')"
                 );
-                }
             }
         }
+    }
 
     uploadDokumen("ktp",        "ktp",        $id_peserta, $folder, $conn, $allowed_ext);
     uploadDokumen("ijazah",     "ijazah",      $id_peserta, $folder, $conn, $allowed_ext);
@@ -130,9 +130,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit;
 }
 
-    /* ===================================================
+/* ===================================================
    LABEL goto agar bisa redirect ke form dengan error
-    ==================================================== */
+==================================================== */
 tampilForm:
 ?>
 
@@ -151,12 +151,12 @@ tampilForm:
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-  <div class="container daftar-container">
-    <a class="navbar-brand fw-bold d-flex align-items-center" href="dashboard_umum.php">
-        <img src="img/logo.png" alt="Logo" class="logo-navbar">
-        <span class="ms-2">Gemilang</span>
-    </a>
-  </div>
+    <div class="container daftar-container">
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="dashboard_umum.php">
+            <img src="img/logo.png" alt="Logo" class="logo-navbar">
+            <span class="ms-2">Gemilang</span>
+        </a>
+    </div>
 </nav>
 
 <!-- Form Section -->
@@ -192,6 +192,9 @@ tampilForm:
                         <div class="mb-3">
                             <label class="form-label">Email</label>
                             <input type="email" name="email" class="form-control" required>
+                            <div class="form-text">
+                                Username & password akan dikirimkan ke email ini.
+                            </div>
                         </div>
 
                         <div class="mb-3">
