@@ -1,71 +1,139 @@
 <?php
 include "koneksi.php";
+include "helpers.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $nama           = $_POST['nama'];
-    $alamat         = $_POST['alamat'];
-    $no_telp        = $_POST['no_telp'];
-    $email          = $_POST['email'];
-    $tgl_lahir      = $_POST['tgl_lahir'];
-    $agama          = $_POST['agama'];
-    $jenis_kelamin  = $_POST['jenis_kelamin'];
-    $tinggi_badan   = $_POST['tinggi_badan'];
-    $berat_badan    = $_POST['berat_badan'];
+    /* ===================================================
+       1. AMBIL DATA FORM
+    ==================================================== */
+    $nama          = mysqli_real_escape_string($conn, trim($_POST['nama']));
+    $alamat        = mysqli_real_escape_string($conn, trim($_POST['alamat']));
+    $no_telp       = mysqli_real_escape_string($conn, trim($_POST['no_telp']));
+    $email         = mysqli_real_escape_string($conn, trim($_POST['email']));
+    $tgl_lahir     = $_POST['tgl_lahir'];
+    $agama         = $_POST['agama'];
+    $jenis_kelamin = $_POST['jenis_kelamin'];
+    $tinggi_badan  = (int) $_POST['tinggi_badan'];
+    $berat_badan   = (int) $_POST['berat_badan'];
 
-    $query = "INSERT INTO peserta 
-              (nama, alamat, no_telp, email, tgl_lahir, agama, jenis_kelamin, status, tinggi_badan, berat_badan) 
+    /* ===================================================
+       2. CEK EMAIL DUPLIKAT
+    ==================================================== */
+    $cekEmail = mysqli_query($conn,
+        "SELECT id_peserta FROM peserta WHERE email='$email' LIMIT 1"
+    );
+    if (mysqli_num_rows($cekEmail) > 0) {
+        $error_msg = "Email sudah terdaftar. Gunakan email lain.";
+        goto tampilForm;
+    }
+
+    /* ===================================================
+       3. GENERATE USERNAME & PASSWORD
+    ==================================================== */
+    $username = generateUsername($conn);  // contoh: siswa2026P1001
+    $password = generatePassword(9);      // contoh: aB3xKm7Rq
+
+    /* ===================================================
+       4. SIMPAN AKUN KE TABEL akun
+          Password disimpan plain text agar peserta bisa
+          melihatnya dari email, dan login langsung pakai
+          password asli yang diterima.
+          (Upgrade ke bcrypt bisa dilakukan setelah fitur
+           ganti password aktif digunakan)
+    ==================================================== */
+    $insertAkun = mysqli_query($conn,
+        "INSERT INTO akun (username, password, role)
+         VALUES ('$username', '$password', 'siswa')"
+    );
+
+    if (!$insertAkun) {
+        $error_msg = "Gagal membuat akun: " . mysqli_error($conn);
+        goto tampilForm;
+    }
+
+    $id_akun = mysqli_insert_id($conn);
+
+    /* ===================================================
+       5. SIMPAN DATA PESERTA
+    ==================================================== */
+    $insertPeserta = mysqli_query($conn,
+        "INSERT INTO peserta
+            (nama, alamat, no_telp, email, tgl_lahir, agama,
+             jenis_kelamin, status, id_akun, tinggi_badan, berat_badan)
               VALUES 
-              ('$nama','$alamat','$no_telp','$email','$tgl_lahir','$agama','$jenis_kelamin','calon','$tinggi_badan','$berat_badan')";
+            ('$nama','$alamat','$no_telp','$email','$tgl_lahir','$agama',
+             '$jenis_kelamin','calon','$id_akun','$tinggi_badan','$berat_badan')"
+    );
 
-    if (mysqli_query($conn, $query)) {
+    if (!$insertPeserta) {
+        // Rollback akun yang sudah dibuat
+        mysqli_query($conn, "DELETE FROM akun WHERE id_akun='$id_akun'");
+        $error_msg = "Gagal menyimpan data peserta: " . mysqli_error($conn);
+        goto tampilForm;
+    }
 
         $id_peserta = mysqli_insert_id($conn);
 
+    /* ===================================================
+       6. UPLOAD DOKUMEN
+    ==================================================== */
         $folder = "uploads/" . $id_peserta;
         if (!is_dir($folder)) {
             mkdir($folder, 0777, true);
         }
 
-        $allowed_ext = ['jpg','jpeg','png','pdf'];
+    $allowed_ext = ['jpg', 'jpeg', 'png', 'pdf'];
 
         function uploadDokumen($input_name, $jenis, $id_peserta, $folder, $conn, $allowed_ext) {
-
             if (!empty($_FILES[$input_name]['name'])) {
-
                 $file_name = $_FILES[$input_name]['name'];
                 $tmp       = $_FILES[$input_name]['tmp_name'];
                 $ext       = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
                 if (in_array($ext, $allowed_ext)) {
-
                     $new_name  = $jenis . "." . $ext;
                     $file_path = $folder . "/" . $new_name;
-
                     move_uploaded_file($tmp, $file_path);
 
                     $tgl = date("Y-m-d H:i:s");
-
-                    mysqli_query($conn, "INSERT INTO dokumen_pendaftaran
+                mysqli_query($conn,
+                    "INSERT INTO dokumen_pendaftaran
                         (jenis, file_path, status_verifikasi, tgl_upload, id_peserta)
                         VALUES
-                        ('$jenis','$file_path','pending','$tgl','$id_peserta')");
+                        ('$jenis','$file_path','pending','$tgl','$id_peserta')"
+                );
                 }
             }
         }
 
-        uploadDokumen("ktp", "ktp", $id_peserta, $folder, $conn, $allowed_ext);
-        uploadDokumen("ijazah", "ijazah", $id_peserta, $folder, $conn, $allowed_ext);
-        uploadDokumen("skck", "skck", $id_peserta, $folder, $conn, $allowed_ext);
-        uploadDokumen("pembayaran", "pembayaran", $id_peserta, $folder, $conn, $allowed_ext);
+    uploadDokumen("ktp",        "ktp",        $id_peserta, $folder, $conn, $allowed_ext);
+    uploadDokumen("ijazah",     "ijazah",      $id_peserta, $folder, $conn, $allowed_ext);
+    uploadDokumen("skck",       "skck",        $id_peserta, $folder, $conn, $allowed_ext);
+    uploadDokumen("pembayaran", "pembayaran",  $id_peserta, $folder, $conn, $allowed_ext);
 
-        header("Location: dashboard_umum.php");
-        exit;
+    /* ===================================================
+       7. KIRIM EMAIL BERISI USERNAME & PASSWORD
+    ==================================================== */
+    $emailTerkirim = kirimEmailAkun($email, $nama, $username, $password);
 
-    } else {
-        echo "Gagal menyimpan data: " . mysqli_error($conn);
-    }
+    /* ===================================================
+       8. REDIRECT KE HALAMAN SUKSES
+    ==================================================== */
+    session_start();
+    $_SESSION['daftar_sukses'] = true;
+    $_SESSION['daftar_nama']   = $nama;
+    $_SESSION['daftar_email']  = $email;
+    $_SESSION['email_terkirim'] = $emailTerkirim;
+
+    header("Location: daftar_sukses.php");
+    exit;
 }
+
+    /* ===================================================
+   LABEL goto agar bisa redirect ke form dengan error
+    ==================================================== */
+tampilForm:
 ?>
 
 <!DOCTYPE html>
@@ -96,10 +164,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container daftar-container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-7">
-
                 <div class="form-card">
 
                     <h3 class="form-title text-center mb-4">Form Pendaftaran</h3>
+
+                    <?php if (!empty($error_msg)): ?>
+                        <div class="alert alert-danger">
+                            <?php echo htmlspecialchars($error_msg); ?>
+                        </div>
+                    <?php endif; ?>
 
                     <form action="daftar.php" method="POST" enctype="multipart/form-data">
 
@@ -198,7 +271,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </form>
 
                 </div>
-
             </div>
         </div>
     </div>

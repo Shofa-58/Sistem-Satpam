@@ -105,9 +105,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
 <!-- LOGIN AREA -->
 <div class="login-wrapper">
-
     <div class="login-box">
-
         <h3>Login Sistem</h3>
 
         <?php if(isset($error)): ?>
