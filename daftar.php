@@ -4,9 +4,6 @@ include "helpers.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    /* ===================================================
-       1. AMBIL DATA FORM
-    ==================================================== */
     $nama          = mysqli_real_escape_string($conn, trim($_POST['nama']));
     $alamat        = mysqli_real_escape_string($conn, trim($_POST['alamat']));
     $no_telp       = mysqli_real_escape_string($conn, trim($_POST['no_telp']));
@@ -17,125 +14,93 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tinggi_badan  = (int) $_POST['tinggi_badan'];
     $berat_badan   = (int) $_POST['berat_badan'];
 
-    /* ===================================================
-       2. CEK EMAIL DUPLIKAT
-    ==================================================== */
+    /* Cek email duplikat */
     $cekEmail = mysqli_query($conn,
-        "SELECT id_peserta FROM peserta WHERE email='$email' LIMIT 1"
+        "SELECT id_peserta FROM siswa WHERE email='$email' LIMIT 1"
     );
     if (mysqli_num_rows($cekEmail) > 0) {
         $error_msg = "Email sudah terdaftar. Gunakan email lain.";
         goto tampilForm;
     }
 
-    /* ===================================================
-       3. GENERATE USERNAME & PASSWORD
-    ==================================================== */
-    $username = generateUsername($conn);  // contoh: siswa2026P1001
-    $password = generatePassword(9);      // contoh: aB3xKm7Rq
+    /* Generate username & password */
+    $username = generateUsername($conn);
+    $password = generatePassword(9);
 
-    /* ===================================================
-       4. SIMPAN AKUN KE TABEL akun
-          Password disimpan plain text agar peserta bisa
-          melihatnya dari email, dan login langsung pakai
-          password asli yang diterima.
-          (Upgrade ke bcrypt bisa dilakukan setelah fitur
-           ganti password aktif digunakan)
-    ==================================================== */
+    /* Simpan akun */
     $insertAkun = mysqli_query($conn,
         "INSERT INTO akun (username, password, role)
          VALUES ('$username', '$password', 'siswa')"
     );
-
     if (!$insertAkun) {
         $error_msg = "Gagal membuat akun: " . mysqli_error($conn);
         goto tampilForm;
     }
-
     $id_akun = mysqli_insert_id($conn);
 
-    /* ===================================================
-       5. SIMPAN DATA PESERTA
-    ==================================================== */
-    $insertPeserta = mysqli_query($conn,
-        "INSERT INTO peserta
+    /* Simpan data siswa */
+    $insertSiswa = mysqli_query($conn,
+        "INSERT INTO siswa
             (nama, alamat, no_telp, email, tgl_lahir, agama,
              jenis_kelamin, status, id_akun, tinggi_badan, berat_badan)
          VALUES
             ('$nama','$alamat','$no_telp','$email','$tgl_lahir','$agama',
              '$jenis_kelamin','calon','$id_akun','$tinggi_badan','$berat_badan')"
     );
-
-    if (!$insertPeserta) {
-        // Rollback akun yang sudah dibuat
+    if (!$insertSiswa) {
         mysqli_query($conn, "DELETE FROM akun WHERE id_akun='$id_akun'");
-        $error_msg = "Gagal menyimpan data peserta: " . mysqli_error($conn);
+        $error_msg = "Gagal menyimpan data: " . mysqli_error($conn);
         goto tampilForm;
     }
+    $id_siswa = mysqli_insert_id($conn);
 
-    $id_peserta = mysqli_insert_id($conn);
-
-    /* ===================================================
-       6. UPLOAD DOKUMEN
-    ==================================================== */
-    $folder = "uploads/" . $id_peserta;
-    if (!is_dir($folder)) {
-        mkdir($folder, 0777, true);
-    }
+    /* Upload dokumen */
+    $folder = "uploads/" . $id_siswa;
+    if (!is_dir($folder)) mkdir($folder, 0777, true);
 
     $allowed_ext = ['jpg', 'jpeg', 'png', 'pdf'];
 
-    function uploadDokumen($input_name, $jenis, $id_peserta, $folder, $conn, $allowed_ext) {
+    function uploadDokumen($input_name, $jenis, $id_siswa, $folder, $conn, $allowed_ext) {
         if (!empty($_FILES[$input_name]['name'])) {
             $file_name = $_FILES[$input_name]['name'];
             $tmp       = $_FILES[$input_name]['tmp_name'];
             $ext       = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-
             if (in_array($ext, $allowed_ext)) {
                 $new_name  = $jenis . "." . $ext;
                 $file_path = $folder . "/" . $new_name;
                 move_uploaded_file($tmp, $file_path);
-
                 $tgl = date("Y-m-d H:i:s");
                 mysqli_query($conn,
                     "INSERT INTO dokumen_pendaftaran
-                        (jenis, file_path, status_verifikasi, tgl_upload, id_peserta)
+                        (jenis, file_path, status_verifikasi, tgl_upload, id_siswa)
                      VALUES
-                        ('$jenis','$file_path','pending','$tgl','$id_peserta')"
+                        ('$jenis','$file_path','pending','$tgl','$id_siswa')"
                 );
             }
         }
     }
 
-    uploadDokumen("ktp",        "ktp",        $id_peserta, $folder, $conn, $allowed_ext);
-    uploadDokumen("ijazah",     "ijazah",      $id_peserta, $folder, $conn, $allowed_ext);
-    uploadDokumen("skck",       "skck",        $id_peserta, $folder, $conn, $allowed_ext);
-    uploadDokumen("pembayaran", "pembayaran",  $id_peserta, $folder, $conn, $allowed_ext);
+    uploadDokumen("ktp",        "ktp",        $id_siswa, $folder, $conn, $allowed_ext);
+    uploadDokumen("ijazah",     "ijazah",      $id_siswa, $folder, $conn, $allowed_ext);
+    uploadDokumen("kk",         "kk",          $id_siswa, $folder, $conn, $allowed_ext);
+    uploadDokumen("skck",       "skck",        $id_siswa, $folder, $conn, $allowed_ext);
+    uploadDokumen("pembayaran", "pembayaran",  $id_siswa, $folder, $conn, $allowed_ext);
 
-    /* ===================================================
-       7. KIRIM EMAIL BERISI USERNAME & PASSWORD
-    ==================================================== */
+    /* Kirim email */
     $emailTerkirim = kirimEmailAkun($email, $nama, $username, $password);
 
-    /* ===================================================
-       8. REDIRECT KE HALAMAN SUKSES
-    ==================================================== */
     session_start();
-    $_SESSION['daftar_sukses'] = true;
-    $_SESSION['daftar_nama']   = $nama;
-    $_SESSION['daftar_email']  = $email;
+    $_SESSION['daftar_sukses']  = true;
+    $_SESSION['daftar_nama']    = $nama;
+    $_SESSION['daftar_email']   = $email;
     $_SESSION['email_terkirim'] = $emailTerkirim;
 
     header("Location: daftar_sukses.php");
     exit;
 }
 
-/* ===================================================
-   LABEL goto agar bisa redirect ke form dengan error
-==================================================== */
 tampilForm:
 ?>
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -146,10 +111,8 @@ tampilForm:
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/daftar.css">
 </head>
-
 <body class="daftar-page">
 
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container daftar-container">
         <a class="navbar-brand fw-bold d-flex align-items-center" href="dashboard_umum.php">
@@ -159,7 +122,6 @@ tampilForm:
     </div>
 </nav>
 
-<!-- Form Section -->
 <section class="py-5">
     <div class="container daftar-container">
         <div class="row justify-content-center">
@@ -176,37 +138,29 @@ tampilForm:
 
                     <form action="daftar.php" method="POST" enctype="multipart/form-data">
 
-                        <!-- DATA DIRI -->
                         <h5 class="section-label">Data Diri</h5>
 
                         <div class="mb-3">
                             <label class="form-label">Nama Lengkap</label>
                             <input type="text" name="nama" class="form-control" required>
                         </div>
-
                         <div class="mb-3">
                             <label class="form-label">Nomor HP</label>
                             <input type="text" name="no_telp" class="form-control" required>
                         </div>
-
                         <div class="mb-3">
                             <label class="form-label">Email</label>
                             <input type="email" name="email" class="form-control" required>
-                            <div class="form-text">
-                                Username & password akan dikirimkan ke email ini.
-                            </div>
+                            <div class="form-text">Username & password akan dikirimkan ke email ini.</div>
                         </div>
-
                         <div class="mb-3">
                             <label class="form-label">Alamat</label>
                             <textarea name="alamat" class="form-control" rows="3" required></textarea>
                         </div>
-
                         <div class="mb-3">
                             <label class="form-label">Tanggal Lahir</label>
                             <input type="date" name="tgl_lahir" class="form-control" required>
                         </div>
-
                         <div class="mb-3">
                             <label class="form-label d-block">Jenis Kelamin</label>
                             <div class="form-check form-check-inline">
@@ -218,17 +172,14 @@ tampilForm:
                                 <label class="form-check-label">Perempuan</label>
                             </div>
                         </div>
-
                         <div class="mb-3">
                             <label class="form-label">Tinggi Badan (cm)</label>
                             <input type="number" name="tinggi_badan" class="form-control" required>
                         </div>
-
                         <div class="mb-3">
                             <label class="form-label">Berat Badan (kg)</label>
                             <input type="number" name="berat_badan" class="form-control" required>
                         </div>
-
                         <div class="mb-4">
                             <label class="form-label">Agama</label>
                             <select name="agama" class="form-select" required>
@@ -244,27 +195,30 @@ tampilForm:
 
                         <hr>
 
-                        <!-- DOKUMEN -->
                         <h5 class="section-label">Upload Dokumen</h5>
-
-                        <div class="mb-3">
-                            <label class="form-label">Upload KTP</label>
-                            <input type="file" name="ktp" class="form-control" required>
+                        <div class="form-text mb-3">
+                            Format yang diterima: JPG, PNG, PDF. Maksimal 5MB per file.
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Upload Ijazah</label>
-                            <input type="file" name="ijazah" class="form-control" required>
+                            <label class="form-label">KTP</label>
+                            <input type="file" name="ktp" class="form-control" accept=".jpg,.jpeg,.png,.pdf" required>
                         </div>
-
                         <div class="mb-3">
-                            <label class="form-label">Upload SKCK</label>
-                            <input type="file" name="skck" class="form-control" required>
+                            <label class="form-label">Ijazah Terakhir</label>
+                            <input type="file" name="ijazah" class="form-control" accept=".jpg,.jpeg,.png,.pdf" required>
                         </div>
-
+                        <div class="mb-3">
+                            <label class="form-label">Kartu Keluarga (KK)</label>
+                            <input type="file" name="kk" class="form-control" accept=".jpg,.jpeg,.png,.pdf" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">SKCK</label>
+                            <input type="file" name="skck" class="form-control" accept=".jpg,.jpeg,.png,.pdf" required>
+                        </div>
                         <div class="mb-4">
-                            <label class="form-label">Upload Bukti Pembayaran</label>
-                            <input type="file" name="pembayaran" class="form-control" required>
+                            <label class="form-label">Bukti Pembayaran DP</label>
+                            <input type="file" name="pembayaran" class="form-control" accept=".jpg,.jpeg,.png,.pdf" required>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">
@@ -272,7 +226,6 @@ tampilForm:
                         </button>
 
                     </form>
-
                 </div>
             </div>
         </div>
