@@ -14,3 +14,4 @@ if (!$conn) {
 // Set utf8
 mysqli_set_charset($conn, "utf8mb4");
 ?>
+<!-- all set -->
