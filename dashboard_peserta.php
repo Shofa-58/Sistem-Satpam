@@ -80,6 +80,8 @@ $adaRevisi = mysqli_num_rows($dokRevisi) > 0;
         <span class="navbar-brand fw-bold">Dashboard Siswa</span>
         <div class="d-flex gap-2">
             <a href="ganti_password.php" class="btn btn-sm btn-warning">Ganti Password</a>
+            <a href="revisi_dokumen.php" class="btn btn-sm btn-primary">Revisi Dokumen</a>
+            <a href="status_siswa.php" class="btn btn-sm btn-info">Status Siswa</a>
             <a href="logout.php" class="btn btn-sm btn-danger">Logout</a>
         </div>
     </div>

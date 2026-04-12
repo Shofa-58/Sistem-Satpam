@@ -1,0 +1,136 @@
+:root{
+    --navy:#0d1b2a;
+    --gold:#ffc107;
+    --soft:#f6f8fb;
+    --line:#dee2e6;
+}
+
+body{
+    background: var(--soft);
+    font-family: Arial, sans-serif;
+}
+
+.nav-mobile{
+    background: var(--navy);
+}
+
+.mobile-hero{
+    background: linear-gradient(135deg, var(--navy), #13253d);
+    color:#fff;
+    padding:22px 0;
+}
+
+.mobile-hero h4,
+.mobile-hero p{
+    margin:0;
+}
+
+.mobile-hero p{
+    margin-top:6px;
+    font-size:13px;
+    color: rgba(255,255,255,.8);
+}
+
+.mobile-wrap{
+    max-width: 820px;
+}
+
+.mobile-card{
+    border:0;
+    border-radius:18px;
+    box-shadow:0 8px 24px rgba(13,27,42,.08);
+    overflow:hidden;
+}
+
+.mobile-card-header{
+    background: var(--navy);
+    color:#fff;
+    font-weight:700;
+    padding:14px 18px;
+    font-size:15px;
+}
+
+.alert-rounded{
+    border-radius:14px;
+    font-size:14px;
+}
+
+.info-grid{
+    display:grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap:14px;
+}
+
+.mini-label{
+    display:block;
+    font-size:12px;
+    color:#6c757d;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.4px;
+    margin-bottom:4px;
+}
+
+.doc-row{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    padding:12px 0;
+    border-bottom:1px solid #eef1f4;
+}
+
+.doc-row:last-child{
+    border-bottom:none;
+}
+
+.score-grid{
+    display:grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap:10px;
+}
+
+.score-box{
+    background:#f8f9fa;
+    border:1px solid #eef1f4;
+    border-radius:14px;
+    padding:12px;
+    text-align:center;
+}
+
+.score-box span{
+    display:block;
+    font-size:12px;
+    color:#6c757d;
+    font-weight:700;
+}
+
+.score-box strong{
+    display:block;
+    font-size:20px;
+    color:#0d1b2a;
+    margin-top:4px;
+}
+
+.note-box{
+    background:#fff8db;
+    border:1px solid #f1dc84;
+    border-radius:14px;
+    padding:12px 14px;
+    font-size:13px;
+    color:#6b5a00;
+}
+
+@media (max-width: 576px){
+    .info-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .score-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .doc-row{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+}

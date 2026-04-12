@@ -49,7 +49,7 @@ if (isset($_POST['submit'])) {
 
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="dashboard_umum.php">Admin Panel</a>
+    <a class="navbar-brand fw-bold" href="dashboard_admin.php">Admin Panel</a>
   </div>
 </nav>
 
