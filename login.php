@@ -7,12 +7,12 @@ require "koneksi.php";
 ================================= */
 if (isset($_SESSION['role'])) {
     switch ($_SESSION['role']) {
-        case 'admin':           header("Location: dashboard_admin.php");   break;
-        case 'siswa':           header("Location: dashboard_peserta.php"); break;
-        case 'publikasi':       header("Location: dashboard_publikasi.php"); break;
-        case 'kepala_keamanan': header("Location: dashboard_kepala.php"); break;
-        case 'polda':           header("Location: dashboard_polda.php");   break;
-        case 'ceo':             header("Location: dashboard_ceo.php");     break;
+        case 'admin':           header("Location: admin/dashboard_admin.php");   break;
+        case 'siswa':           header("Location: siswa/dashboard_peserta.php"); break;
+        case 'publikasi':       header("Location: publikasi/dashboard_publikasi.php"); break;
+        case 'kepala_keamanan': header("Location: kepala/dashboard_kepala.php"); break;
+        case 'polda':           header("Location: polda/dashboard_polda.php");   break;
+        case 'ceo':             header("Location: ceo/dashboard_ceo.php");     break;
     }
     exit();
 }
@@ -49,12 +49,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['role']     = $akun['role'];
 
             switch ($akun['role']) {
-                case 'admin':           header("Location: dashboard_admin.php");   break;
-                case 'siswa':           header("Location: dashboard_peserta.php"); break;
-                case 'publikasi':       header("Location: dashboard_publikasi.php"); break;
-                case 'kepala_keamanan': header("Location: dashboard_kepala.php"); break;
-                case 'polda':           header("Location: dashboard_polda.php");   break;
-                case 'ceo':             header("Location: dashboard_ceo.php");     break;
+                case 'admin':           header("Location: admin/dashboard_admin.php");   break;
+                case 'siswa':           header("Location: siswa/dashboard_peserta.php"); break;
+                case 'publikasi':       header("Location: publikasi/dashboard_publikasi.php"); break;
+                case 'kepala_keamanan': header("Location: kepala/dashboard_kepala.php"); break;
+                case 'polda':           header("Location: polda/dashboard_polda.php");   break;
+                case 'ceo':             header("Location: ceo/dashboard_ceo.php");     break;
                 default:
                     session_destroy();
                     header("Location: login.php");
