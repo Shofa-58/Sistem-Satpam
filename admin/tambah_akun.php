@@ -127,7 +127,7 @@ $flash_type = $_GET['type'] ?? 'info';
 <nav class="topnav">
     <a class="tn-brand" href="dashboard_admin.php">
         <img src="../img/logo.png" alt="Logo" style="height:28px;width:auto;margin-right:8px;vertical-align:middle;">
-        ⚙️ Admin Gemilang
+        Admin Gemilang
     </a>
     <div class="tn-links">
         <a href="dashboard_admin.php">👥 Data Peserta</a>

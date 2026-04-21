@@ -185,12 +185,6 @@ tampilForm:
                         </select>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Tempat Pelatihan <span class="text-danger">*</span></label>
-                        <input type="text" name="tempat" class="form-control" required
-                               placeholder="Contoh: Pusdiklat Polda DIY">
-                    </div>
-
                     <div class="mb-4">
                         <label class="form-label">Upload Brosur / Poster</label>
                         <input type="file" name="brosur" class="form-control"

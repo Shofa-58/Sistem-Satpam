@@ -154,7 +154,7 @@ $pending_eval = mysqli_fetch_assoc(mysqli_query($conn,
 
 <!-- TOP NAVBAR -->
 <nav class="topnav">
-    <a class="tn-brand" href="#"><img src="../img/logo.png" alt="Logo" style="height:28px;width:auto;margin-right:8px;vertical-align:middle;">⚙️ Admin Gemilang</a>
+    <a class="tn-brand" href="#"><img src="../img/logo.png" alt="Logo" style="height:28px;width:auto;margin-right:8px;vertical-align:middle;">Admin Gemilang</a>
     <div class="tn-links">
         <a href="dashboard_admin.php" class="active">👥 Data Peserta</a>
         <a href="admin_evaluasi.php">

@@ -131,12 +131,55 @@ if (isset($_POST['update_jadwal'])) {
 }
 
 /* ============================================================
-   PROSES HAPUS PERIODE & JADWAL
+   PROSES HAPUS PERIODE — CASCADE DELETE SEMUA DATA TERKAIT
+   Urutan penghapusan penting: hapus relasi dulu baru induk.
+
+   Tabel yang dihapus:
+   1. evaluasi            — nilai siswa di periode ini
+   2. laporan_polda       — laporan LPJ Polda untuk periode ini
+   3. laporan             — laporan rekap kepala untuk periode ini
+   4. informasi_diklat    — info publikasi untuk periode ini
+   5. jadwal_diklat       — rundown kegiatan periode ini
+   6. peserta_periode     — assignment siswa ke periode ini
+      (siswa itu sendiri TIDAK dihapus, hanya dicabut dari periode)
+   7. periode_diklat      — data periode itu sendiri
    ============================================================ */
 if (isset($_GET['hapus_periode'])) {
     $id = (int) $_GET['hapus_periode'];
+
+    /* Ambil info periode untuk pesan konfirmasi */
+    $info_p = mysqli_fetch_assoc(mysqli_query($conn,
+        "SELECT tahun, gelombang FROM periode_diklat WHERE id_periode='$id' LIMIT 1"
+    ));
+    if (!$info_p) {
+        header("Location: admin_persiapan_diklat.php?msg=Periode+tidak+ditemukan&type=error");
+        exit;
+    }
+
+    /* 1. Hapus nilai evaluasi semua siswa di periode ini */
+    mysqli_query($conn, "DELETE FROM evaluasi WHERE id_periode='$id'");
+
+    /* 2. Hapus laporan LPJ Polda untuk periode ini */
+    mysqli_query($conn, "DELETE FROM laporan_polda WHERE id_periode='$id'");
+
+    /* 3. Hapus laporan rekap kepala keamanan untuk periode ini */
+    mysqli_query($conn, "DELETE FROM laporan WHERE id_periode='$id'");
+
+    /* 4. Hapus informasi/publikasi diklat untuk periode ini */
+    mysqli_query($conn, "DELETE FROM informasi_diklat WHERE id_periode='$id'");
+
+    /* 5. Hapus semua jadwal / rundown kegiatan periode ini */
+    mysqli_query($conn, "DELETE FROM jadwal_diklat WHERE id_periode='$id'");
+
+    /* 6. Hapus assignment siswa ke periode ini
+          (data siswa & dokumen mereka TIDAK ikut dihapus) */
+    mysqli_query($conn, "DELETE FROM peserta_periode WHERE id_periode='$id'");
+
+    /* 7. Terakhir hapus periode itu sendiri */
     mysqli_query($conn, "DELETE FROM periode_diklat WHERE id_periode='$id'");
-    header("Location: admin_persiapan_diklat.php?msg=Periode+dihapus&type=success");
+
+    $label = "Periode {$info_p['tahun']} Gel.{$info_p['gelombang']} dan semua data terkait berhasil dihapus.";
+    header("Location: admin_persiapan_diklat.php?msg=" . urlencode($label) . "&type=success");
     exit;
 }
 if (isset($_GET['hapus_jadwal'])) {
@@ -233,7 +276,7 @@ $pending_eval = mysqli_fetch_assoc(mysqli_query($conn,
 
 <!-- TOP NAVBAR -->
 <nav class="topnav">
-    <a class="tn-brand" href="#"><img src="../img/logo.png" alt="Logo" style="height:28px;width:auto;margin-right:8px;vertical-align:middle;">⚙️ Admin Gemilang</a>
+    <a class="tn-brand" href="#"><img src="../img/logo.png" alt="Logo" style="height:28px;width:auto;margin-right:8px;vertical-align:middle;">Admin Gemilang</a>
     <div class="tn-links">
         <a href="dashboard_admin.php">👥 Data Peserta</a>
         <a href="admin_evaluasi.php">
@@ -381,7 +424,13 @@ $pending_eval = mysqli_fetch_assoc(mysqli_query($conn,
                     </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($semua_periode as $p): ?>
+                <?php foreach ($semua_periode as $p):
+                    /* Hitung jumlah siswa & jadwal untuk ditampilkan di popup konfirmasi */
+                    $jml_siswa  = mysqli_fetch_assoc(mysqli_query($conn,
+                        "SELECT COUNT(*) AS jml FROM peserta_periode WHERE id_periode='{$p['id_periode']}'"
+                    ))['jml'];
+                    $jml_jadwal = count($p['jadwal']);
+                ?>
                 <tr>
                     <td><?= $p['tahun'] ?></td>
                     <td><?= $p['gelombang'] ?></td>
@@ -411,8 +460,15 @@ $pending_eval = mysqli_fetch_assoc(mysqli_query($conn,
                                     data-bs-toggle="modal" data-bs-target="#modalEditPeriode">
                                 ✏️ Edit
                             </button>
-                            <button class="btn btn-sm btn-outline-danger"
-                                    onclick="konfirmasiHapus('?hapus_periode=<?= $p['id_periode'] ?>')">
+                            <!-- Tombol Hapus — bawa info jumlah data untuk popup peringatan -->
+                            <button class="btn btn-sm btn-danger"
+                                    onclick="konfirmasiHapusPeriode(
+                                        '?hapus_periode=<?= $p['id_periode'] ?>',
+                                        '<?= $p['tahun'] ?>',
+                                        '<?= $p['gelombang'] ?>',
+                                        <?= (int)$jml_siswa ?>,
+                                        <?= (int)$jml_jadwal ?>
+                                    )">
                                 🗑 Hapus
                             </button>
                         </div>
@@ -669,11 +725,13 @@ document.querySelectorAll('.btn-edit-jadwal').forEach(function(btn) {
     });
 });
 
-/* Konfirmasi hapus dengan SweetAlert2 */
+/* ============================================================
+   KONFIRMASI HAPUS JADWAL — peringatan sederhana
+   ============================================================ */
 function konfirmasiHapus(url) {
     Swal.fire({
-        title: 'Yakin ingin menghapus?',
-        text: 'Data yang dihapus tidak bisa dikembalikan!',
+        title: 'Hapus Jadwal?',
+        text: 'Jadwal kegiatan ini akan dihapus permanen.',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#dc3545',
@@ -681,6 +739,44 @@ function konfirmasiHapus(url) {
         confirmButtonText: 'Ya, Hapus',
         cancelButtonText: 'Batal',
         reverseButtons: true
+    }).then(r => { if (r.isConfirmed) window.location.href = url; });
+}
+
+/* ============================================================
+   KONFIRMASI HAPUS PERIODE — peringatan detail dengan daftar
+   data yang akan ikut dihapus supaya admin benar-benar sadar
+   ============================================================ */
+function konfirmasiHapusPeriode(url, tahun, gelombang, jmlSiswa, jmlJadwal) {
+    const label = `Periode ${tahun} — Gelombang ${gelombang}`;
+
+    /* Bangun daftar data yang terdampak */
+    const items = [
+        `<li>Semua <strong>rundown / jadwal kegiatan</strong> (${jmlJadwal} entri)</li>`,
+        `<li>Assignment <strong>${jmlSiswa} siswa</strong> dari periode ini (data siswa sendiri tidak dihapus)</li>`,
+        `<li>Seluruh <strong>nilai evaluasi</strong> siswa di periode ini</li>`,
+        `<li>Laporan <strong>LPJ Polda</strong> periode ini</li>`,
+        `<li>Laporan rekap <strong>Kepala Keamanan</strong> periode ini</li>`,
+        `<li>Informasi / <strong>publikasi</strong> diklat periode ini</li>`,
+    ].join('');
+
+    Swal.fire({
+        title: `Hapus ${label}?`,
+        html: `
+            <div style="text-align:left;font-size:14px;margin-bottom:10px;">
+                <span style="color:#dc3545;font-weight:600;">⚠️ Tindakan ini permanen dan tidak bisa dibatalkan.</span>
+            </div>
+            <div style="text-align:left;font-size:13px;color:#555;">
+                Data berikut akan ikut terhapus selamanya:
+                <ul style="margin-top:8px;padding-left:20px;line-height:1.9;">${items}</ul>
+            </div>`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: '🗑 Ya, Hapus Semua',
+        cancelButtonText: 'Batal',
+        reverseButtons: true,
+        focusCancel: true   /* default fokus ke Batal supaya tidak asal klik */
     }).then(r => { if (r.isConfirmed) window.location.href = url; });
 }
 
