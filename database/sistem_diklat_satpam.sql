@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 30, 2026 at 06:13 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Waktu pembuatan: 22 Apr 2026 pada 13.54
+-- Versi server: 10.4.32-MariaDB
+-- Versi PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `akun`
+-- Struktur dari tabel `akun`
 --
 
 CREATE TABLE `akun` (
@@ -36,22 +36,27 @@ CREATE TABLE `akun` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `akun`
+-- Dumping data untuk tabel `akun`
 --
 
 INSERT INTO `akun` (`id_akun`, `username`, `password`, `role`, `dibuat_pada`) VALUES
-(1, 'siswa01', 'Gemilang1', 'siswa', '2026-03-27 17:40:04'),
 (2, 'admin01', 'Gemilang1', 'admin', '2026-03-27 17:40:04'),
 (3, 'publikasi01', 'Gemilang1', 'publikasi', '2026-03-27 17:40:04'),
 (4, 'polda01', 'Gemilang1', 'polda', '2026-03-27 17:40:04'),
 (5, 'kepala01', 'Gemilang1', 'kepala_keamanan', '2026-03-27 17:40:04'),
 (6, 'ceo01', 'Gemilang1', 'ceo', '2026-03-27 17:40:04'),
-(7, 'siswa2026P1001', 'Jawa01', 'siswa', '2026-03-27 17:40:04');
+(7, 'siswa01', 'Gemilang1', 'siswa', '2024-01-10 00:30:00'),
+(8, 'siswa02', 'Gemilang1', 'siswa', '2024-01-10 01:15:00'),
+(9, 'siswa03', 'Gemilang1', 'siswa', '2024-06-12 00:45:00'),
+(10, 'siswa04', 'Gemilang1', 'siswa', '2024-06-12 01:30:00'),
+(11, 'siswa05', 'Gemilang1', 'siswa', '2025-01-18 02:00:00'),
+(12, 'siswa06', 'Gemilang1', 'siswa', '2026-03-20 01:00:00'),
+(13, 'siswa07', 'Gemilang1', 'siswa', '2026-03-21 02:30:00');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dokumen_pendaftaran`
+-- Struktur dari tabel `dokumen_pendaftaran`
 --
 
 CREATE TABLE `dokumen_pendaftaran` (
@@ -67,23 +72,27 @@ CREATE TABLE `dokumen_pendaftaran` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `dokumen_pendaftaran`
+-- Dumping data untuk tabel `dokumen_pendaftaran`
 --
 
 INSERT INTO `dokumen_pendaftaran` (`id_dokumen`, `jenis`, `file_path`, `status_verifikasi`, `catatan_admin`, `tgl_upload`, `tgl_revisi`, `id_siswa`, `created_at`) VALUES
-(1, 'ktp', 'uploads/1/ktp.jpg', 'valid', NULL, '2026-02-20 14:10:42', NULL, 1, '2026-02-20 07:28:36'),
-(2, 'ijazah', 'uploads/1/ijazah.jpg', 'valid', NULL, '2026-02-20 14:10:42', NULL, 1, '2026-02-20 07:28:36'),
-(3, 'kk', 'uploads/1/kk.jpg', 'valid', NULL, '2026-02-20 14:10:42', NULL, 1, '2026-02-20 07:28:36'),
-(4, 'pembayaran', 'uploads/1/bayar.jpg', 'pending', 'Menunggu konfirmasi', '2026-02-20 14:10:42', NULL, 1, '2026-02-20 07:28:36'),
-(9, 'ktp', 'uploads/4/ktp.pdf', 'valid', '', '2026-03-26 01:05:08', NULL, 4, '2026-03-26 00:05:08'),
-(10, 'ijazah', 'uploads/4/ijazah.pdf', 'valid', '', '2026-03-26 01:05:08', NULL, 4, '2026-03-26 00:05:08'),
-(11, 'skck', 'uploads/4/skck.pdf', 'valid', '', '2026-03-26 01:05:08', NULL, 4, '2026-03-26 00:05:08'),
-(12, 'pembayaran', 'uploads/4/pembayaran.pdf', 'valid', '', '2026-03-26 01:05:08', NULL, 4, '2026-03-26 00:05:08');
+(1, 'ktp', 'uploads/1/ktp.jpg', 'valid', NULL, '2024-01-10 07:35:00', NULL, 1, '2026-04-21 10:24:01'),
+(2, 'ijazah', 'uploads/1/ijazah.jpg', 'valid', NULL, '2024-01-10 07:36:00', NULL, 1, '2026-04-21 10:24:01'),
+(3, 'kk', 'uploads/1/kk.jpg', 'valid', NULL, '2024-01-10 07:37:00', NULL, 1, '2026-04-21 10:24:01'),
+(4, 'skck', 'uploads/1/skck.pdf', 'valid', NULL, '2024-01-10 07:38:00', NULL, 1, '2026-04-21 10:24:01'),
+(5, 'pembayaran', 'uploads/1/pembayaran.jpg', 'valid', NULL, '2024-01-10 07:39:00', NULL, 1, '2026-04-21 10:24:01'),
+(6, 'surat_kesehatan', 'uploads/1/surat_kesehatan.pdf', 'valid', NULL, '2024-01-10 07:40:00', NULL, 1, '2026-04-21 10:24:01'),
+(7, 'ktp', 'uploads/6/ktp.jpg', 'valid', NULL, '2026-03-20 08:05:00', NULL, 6, '2026-04-21 10:24:01'),
+(8, 'ijazah', 'uploads/6/ijazah.jpg', 'valid', NULL, '2026-03-20 08:07:00', NULL, 6, '2026-04-21 10:24:01'),
+(9, 'kk', 'uploads/6/kk.jpg', 'valid', NULL, '2026-03-20 08:09:00', NULL, 6, '2026-04-21 10:24:01'),
+(10, 'skck', 'uploads/6/skck.pdf', 'valid', NULL, '2026-03-20 08:11:00', NULL, 6, '2026-04-21 10:24:01'),
+(11, 'pembayaran', 'uploads/6/pembayaran.jpg', 'valid', NULL, '2026-03-20 08:13:00', NULL, 6, '2026-04-21 10:24:01'),
+(12, 'surat_kesehatan', 'uploads/6/surat_kesehatan.pdf', 'valid', NULL, '2026-03-20 08:15:00', NULL, 6, '2026-04-21 10:24:01');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `evaluasi`
+-- Struktur dari tabel `evaluasi`
 --
 
 CREATE TABLE `evaluasi` (
@@ -102,16 +111,22 @@ CREATE TABLE `evaluasi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `evaluasi`
+-- Dumping data untuk tabel `evaluasi`
 --
 
 INSERT INTO `evaluasi` (`id_evaluasi`, `nilai_teori`, `nilai_fisik`, `nilai_disiplin`, `nilai_praktik`, `rata_rata`, `hasil`, `catatan`, `tgl_input`, `id_siswa`, `id_periode`, `dikonfirmasi_admin`) VALUES
-(1, 85.00, 80.00, 90.00, 0.00, 85.00, 'lulus', NULL, '2026-03-18', 1, 1, 0);
+(1, 88.00, 85.00, 90.00, 87.00, 87.50, 'lulus', 'Peserta menunjukkan semangat tinggi dan kedisiplinan yang baik sepanjang diklat.', '2024-02-14', 1, 1, 1),
+(2, 84.00, 82.00, 85.00, 86.00, 84.25, 'lulus', 'Performa konsisten, unggul pada sesi praktik lapangan.', '2024-02-14', 2, 1, 1),
+(3, 85.00, 88.00, 92.00, 90.00, 88.75, 'lulus', 'Peserta terbaik gelombang ini, sangat direkomendasikan.', '2024-07-30', 3, 2, 1),
+(4, 68.00, 70.00, 72.00, 75.00, 71.25, 'tidak_lulus', 'Nilai teori di bawah standar minimum (70). Disarankan mengikuti diklat gelombang berikutnya.', '2024-07-30', 4, 2, 1),
+(5, 92.00, 90.00, 88.00, 89.00, 89.75, 'lulus', 'Prestasi sangat memuaskan, nilai tertinggi selama program berjalan.', '2025-03-09', 5, 3, 1),
+(6, 72.00, 75.00, 78.00, 80.00, 76.25, 'tidak_lulus', 'Nilai masih di bawah standar, perlu penguatan materi teori.', '2026-04-18', 6, 4, 0),
+(7, 86.00, 88.00, 85.00, 87.00, 86.50, 'lulus', 'Performa bagus dan konsisten selama kegiatan diklat berlangsung.', '2026-04-18', 7, 4, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `informasi_diklat`
+-- Struktur dari tabel `informasi_diklat`
 --
 
 CREATE TABLE `informasi_diklat` (
@@ -124,16 +139,19 @@ CREATE TABLE `informasi_diklat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `informasi_diklat`
+-- Dumping data untuk tabel `informasi_diklat`
 --
 
 INSERT INTO `informasi_diklat` (`id_info`, `id_periode`, `brosur_path`, `tempat`, `dibuat_pada`, `diperbarui_pada`) VALUES
-(1, 1, 'uploads/brosur_diklat1.jpg', 'Pusdiklat Bandung', '2026-03-27 17:43:38', '2026-03-27 17:43:38');
+(1, 1, 'brosur_1_diklat2024gel1.jpg', 'Pusdiklat Polda DIY, Jl. Ringroad Utara No. 1, Yogyakarta', '2026-04-21 10:30:07', '2023-12-20 03:00:00'),
+(2, 2, 'brosur_2_diklat2024gel2.jpg', 'Pusdiklat Polda DIY, Jl. Ringroad Utara No. 1, Yogyakarta', '2026-04-21 10:30:07', '2024-06-01 02:30:00'),
+(3, 3, 'brosur_3_diklat2025gel1.jpg', 'Pusdiklat Polda DIY, Jl. Ringroad Utara No. 1, Yogyakarta', '2026-04-21 10:30:07', '2025-01-10 04:00:00'),
+(4, 4, 'brosur_4_diklat2026gel1.jpg', 'Pusdiklat Polda DIY, Jl. Ringroad Utara No. 1, Yogyakarta', '2026-04-21 10:30:07', '2026-03-15 01:00:00');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jadwal_diklat`
+-- Struktur dari tabel `jadwal_diklat`
 --
 
 CREATE TABLE `jadwal_diklat` (
@@ -145,18 +163,31 @@ CREATE TABLE `jadwal_diklat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `jadwal_diklat`
+-- Dumping data untuk tabel `jadwal_diklat`
 --
 
 INSERT INTO `jadwal_diklat` (`id_jadwal`, `tanggal`, `kegiatan`, `keterangan`, `id_periode`) VALUES
-(1, '2026-01-12', 'Pembukaan Diklat', 'Upacara pembukaan', 1),
-(2, '2026-01-13', 'Latihan Fisik', 'Lapangan utama', 1),
-(3, '2026-01-15', 'Materi Hukum', 'Ruang kelas', 1);
+(1, '2024-01-15', 'Pembukaan & Orientasi Peserta', 'Upacara pembukaan oleh Kapolda DIY, pengenalan lingkungan diklat', 1),
+(2, '2024-01-22', 'Materi Hukum & Etika Keamanan', 'Hukum Ketenagakerjaan, Etika Profesi Satpam, UU No. 2 Tahun 2002', 1),
+(3, '2024-02-05', 'Latihan Fisik & Bela Diri Dasar', 'Latihan fisik intensif, teknik dasar bela diri, dan baris berbaris', 1),
+(4, '2024-02-14', 'Ujian Akhir & Penutupan', 'Ujian tulis dan praktik lapangan, upacara penutupan dan penyerahan sertifikat', 1),
+(5, '2024-07-01', 'Pembukaan Diklat Gelombang II', 'Upacara pembukaan, perkenalan instruktur dan tata tertib diklat', 2),
+(6, '2024-07-10', 'Materi Teori Keamanan Gedung', 'Prosedur pengamanan gedung, penanganan tamu, dan penanganan keadaan darurat', 2),
+(7, '2024-07-20', 'Praktik Lapangan & Simulasi', 'Simulasi pengamanan objek vital, penggunaan CCTV dan peralatan keamanan', 2),
+(8, '2024-07-30', 'Evaluasi Akhir & Penutupan', 'Ujian komprehensif, penilaian akhir, dan upacara penutupan resmi', 2),
+(9, '2025-02-10', 'Pembukaan & Orientasi Diklat 2025', 'Upacara pembukaan, pengenalan program terbaru, dan pembagian atribut', 3),
+(10, '2025-02-18', 'Materi Keamanan & Keselamatan Kerja', 'K3, manajemen risiko, prosedur darurat kebakaran dan bencana', 3),
+(11, '2025-03-01', 'Praktik Patroli & Penjagaan Pos', 'Teknik patroli area, penjagaan pos, dan pembuatan laporan harian', 3),
+(12, '2025-03-09', 'Ujian Akhir Komprehensif', 'Ujian tulis, praktik lapangan, dan sidang penilaian bersama polda', 3),
+(13, '2026-04-01', 'Pembukaan & Orientasi Peserta 2026', 'Upacara pembukaan resmi oleh Kepala Polda DIY', 4),
+(14, '2026-04-10', 'Materi Dasar Ilmu Keamanan', 'Pengantar ilmu keamanan, peraturan perundang-undangan satpam terbaru', 4),
+(15, '2026-04-18', 'Latihan Fisik & PBB', 'Baris berbaris, latihan fisik terprogram, dan simulasi pengamanan', 4),
+(16, '2026-04-25', 'Materi Hukum & Evaluasi Tengah', 'Hukum acara pidana, hak dan kewajiban satpam, evaluasi kemajuan belajar', 4);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `laporan`
+-- Struktur dari tabel `laporan`
 --
 
 CREATE TABLE `laporan` (
@@ -173,17 +204,19 @@ CREATE TABLE `laporan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `laporan`
+-- Dumping data untuk tabel `laporan`
 --
 
 INSERT INTO `laporan` (`id_laporan`, `tgl_generate`, `dikonfirmasi_kepala`, `tgl_konfirmasi_kepala`, `dilihat_ceo`, `tgl_dilihat_ceo`, `id_periode`, `file_laporan_polda`, `file_laporan_penilaian`, `file_surat_pernyataan`) VALUES
-(1, '2026-03-25 00:00:00', 0, NULL, 0, NULL, 1, NULL, NULL, NULL),
-(2, '2026-03-28 00:48:39', 0, NULL, 0, NULL, 1, NULL, NULL, NULL);
+(1, '2024-02-14 20:00:00', 1, '2024-02-16 09:00:00', 1, '2024-02-17 14:00:00', 1, NULL, 'confirmed', 'uploads/surat_pernyataan/surat_pernyataan_periode_1.pdf'),
+(2, '2024-07-30 20:00:00', 1, '2024-08-01 10:00:00', 1, '2024-08-02 11:00:00', 2, NULL, 'confirmed', 'uploads/surat_pernyataan/surat_pernyataan_periode_2.pdf'),
+(3, '2025-03-09 19:00:00', 1, '2025-03-11 08:30:00', 1, '2025-03-12 09:00:00', 3, NULL, 'confirmed', 'uploads/surat_pernyataan/surat_pernyataan_periode_3.pdf'),
+(4, '2026-04-18 18:00:00', 0, NULL, 1, '2026-04-21 17:36:00', 4, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `laporan_polda`
+-- Struktur dari tabel `laporan_polda`
 --
 
 CREATE TABLE `laporan_polda` (
@@ -197,10 +230,20 @@ CREATE TABLE `laporan_polda` (
   `tgl_input` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `laporan_polda`
+--
+
+INSERT INTO `laporan_polda` (`id_laporan_polda`, `id_periode`, `id_akun_polda`, `pengeluaran`, `pemasukan`, `deskripsi_kegiatan`, `file_laporan`, `tgl_input`) VALUES
+(1, 1, 4, 18500000, 20000000, 'Pelaksanaan Diklat Satpam Gel. I 2024 berjalan lancar. Total 2 peserta, keduanya lulus dengan nilai memuaskan. Kegiatan meliputi materi teori hukum, latihan fisik, dan praktik lapangan.', 'uploads/laporan_polda/lpj_periode_1.pdf', '2026-04-21 17:29:49'),
+(2, 2, 4, 19200000, 20000000, 'Pelaksanaan Diklat Satpam Gel. II 2024 selesai dengan 2 peserta. 1 peserta lulus dan 1 tidak memenuhi nilai minimum. Total kegiatan 4 pertemuan selama 31 hari.', 'uploads/laporan_polda/lpj_periode_2.pdf', '2026-04-21 17:29:49'),
+(3, 3, 4, 21000000, 22000000, 'Diklat Satpam Gel. I 2025 berhasil dilaksanakan dengan 1 peserta yang dinyatakan lulus nilai tertinggi program. Surplus anggaran dialokasikan untuk peningkatan fasilitas diklat.', 'uploads/laporan_polda/lpj_periode_3.pdf', '2026-04-21 17:29:49'),
+(4, 4, 4, 15000000, 24000000, 'Laporan sementara Diklat Satpam Gel. I 2026. Program masih berjalan per tanggal laporan. 2 peserta aktif mengikuti seluruh rangkaian kegiatan. Pemasukan dari biaya pendaftaran sudah diterima penuh.', NULL, '2026-04-21 17:29:49');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `notifikasi`
+-- Struktur dari tabel `notifikasi`
 --
 
 CREATE TABLE `notifikasi` (
@@ -212,10 +255,23 @@ CREATE TABLE `notifikasi` (
   `tgl_kirim` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `notifikasi`
+--
+
+INSERT INTO `notifikasi` (`id_notifikasi`, `id_siswa`, `jenis`, `pesan`, `status_kirim`, `tgl_kirim`) VALUES
+(1, 1, 'revisi', 'Dokumen Anda memerlukan revisi:\nKTP: Foto kurang jelas, mohon upload ulang dengan pencahayaan cukup\n\nBatas waktu revisi: 2024-01-13\n\nSilakan login dan upload ulang dokumen sebelum batas waktu.', 'terkirim', '2024-01-11 14:00:00'),
+(2, 1, '', 'Selamat! Anda dinyatakan LULUS program Diklat Satpam Gelombang I Tahun 2024. Sertifikat dapat diambil di kantor Pusdiklat mulai 17 Februari 2024.', 'terkirim', '2024-02-15 10:00:00'),
+(3, 2, '', 'Selamat! Anda dinyatakan LULUS program Diklat Satpam Gelombang I Tahun 2024. Harap segera menghubungi panitia untuk pengambilan sertifikat.', 'terkirim', '2024-02-15 10:05:00'),
+(4, 3, '', 'Selamat! Anda dinyatakan LULUS program Diklat Satpam Gelombang II Tahun 2024 dengan predikat terbaik.', 'terkirim', '2024-07-31 11:00:00'),
+(5, 4, '', 'Anda dinyatakan TIDAK LULUS program Diklat Satpam Gelombang II Tahun 2024. Silakan hubungi admin untuk informasi pendaftaran diklat ulang.', 'terkirim', '2024-07-31 11:05:00'),
+(6, 5, '', 'Selamat! Anda dinyatakan LULUS program Diklat Satpam Gelombang I Tahun 2025 dengan nilai tertinggi program.', 'terkirim', '2025-03-10 09:00:00'),
+(7, 6, 'revisi', 'Dokumen Anda memerlukan revisi:\nSKCK: Masa berlaku sudah habis, mohon perbarui di Polsek setempat\n\nBatas waktu revisi: 2026-03-27\n\nSilakan login dan upload ulang dokumen sebelum batas waktu.', 'terkirim', '2026-03-22 13:00:00');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `periode_diklat`
+-- Struktur dari tabel `periode_diklat`
 --
 
 CREATE TABLE `periode_diklat` (
@@ -234,17 +290,19 @@ CREATE TABLE `periode_diklat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `periode_diklat`
+-- Dumping data untuk tabel `periode_diklat`
 --
 
 INSERT INTO `periode_diklat` (`id_periode`, `tahun`, `gelombang`, `tanggal_mulai`, `tanggal_selesai`, `biaya`, `lokasi_spesifik`, `lokasi_fasilitas`, `fasilitas`, `info_kebutuhan`, `batas_verifikasi`, `status`) VALUES
-(1, '2026', 1, '2026-01-10', '2026-03-20', 3500000, 'Bandung', NULL, 'Seragam, Modul, Konsumsi', NULL, '2026-02-28', 'berjalan'),
-(2, '2026', 2, '2026-04-10', '2026-06-20', 3500000, 'Bandung', NULL, 'Seragam, Modul, Konsumsi', NULL, '2026-05-15', 'pendaftaran');
+(1, '2024', 1, '2024-01-15', '2024-02-15', 2500000, 'Pusdiklat Polda DIY, Jl. Ringroad Utara No. 1, Yogyakarta', 'Gudang Logistik Lt. 1, Gedung A Pusdiklat', 'Seragam PDH 2 stel, Modul Diklat, Konsumsi 2x sehari', 'Pakaian olahraga 2 stel, Sepatu PDH hitam, Perlengkapan mandi', '2024-01-12', 'selesai'),
+(2, '2024', 2, '2024-07-01', '2024-07-31', 2500000, 'Pusdiklat Polda DIY, Jl. Ringroad Utara No. 1, Yogyakarta', 'Gudang Logistik Lt. 1, Gedung A Pusdiklat', 'Seragam PDH 2 stel, Modul Diklat, Konsumsi 2x sehari', 'Pakaian olahraga 2 stel, Sepatu PDH hitam, Perlengkapan mandi', '2024-06-28', 'selesai'),
+(3, '2025', 1, '2025-02-10', '2025-03-10', 2750000, 'Pusdiklat Polda DIY, Jl. Ringroad Utara No. 1, Yogyakarta', 'Gudang Logistik Lt. 2, Gedung B Pusdiklat', 'Seragam PDH 2 stel, Modul Diklat Edisi Revisi, Konsumsi 2x sehari', 'Pakaian olahraga 2 stel, Sepatu PDH hitam, Perlengkapan mandi, Buku catatan', '2025-02-07', 'selesai'),
+(4, '2026', 1, '2026-04-01', '2026-04-30', 3000000, 'Pusdiklat Polda DIY, Jl. Ringroad Utara No. 1, Yogyakarta', 'Gudang Logistik Lt. 1, Gedung A Pusdiklat', 'Seragam PDH 2 stel, Modul Diklat 2026, Konsumsi 2x sehari, Tas ransel', 'Pakaian olahraga 2 stel, Sepatu PDH hitam, Perlengkapan mandi', '2026-03-28', 'berjalan');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `peserta_periode`
+-- Struktur dari tabel `peserta_periode`
 --
 
 CREATE TABLE `peserta_periode` (
@@ -256,16 +314,22 @@ CREATE TABLE `peserta_periode` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `peserta_periode`
+-- Dumping data untuk tabel `peserta_periode`
 --
 
 INSERT INTO `peserta_periode` (`id_peserta_periode`, `tanggal_terima`, `id_peserta`, `id_periode`, `created_at`) VALUES
-(1, '2026-01-05', 1, 1, '2026-02-20 07:28:36');
+(1, '2024-01-14', 1, 1, '2024-01-14 03:00:00'),
+(2, '2024-01-14', 2, 1, '2024-01-14 03:30:00'),
+(3, '2024-06-30', 3, 2, '2024-06-30 02:00:00'),
+(4, '2024-06-30', 4, 2, '2024-06-30 02:30:00'),
+(5, '2025-02-09', 5, 3, '2025-02-09 01:00:00'),
+(6, '2026-03-29', 6, 4, '2026-03-29 03:00:00'),
+(7, '2026-03-29', 7, 4, '2026-03-29 03:30:00');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `siswa`
+-- Struktur dari tabel `siswa`
 --
 
 CREATE TABLE `siswa` (
@@ -286,34 +350,38 @@ CREATE TABLE `siswa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `siswa`
+-- Dumping data untuk tabel `siswa`
 --
 
 INSERT INTO `siswa` (`id_peserta`, `nama`, `alamat`, `no_telp`, `email`, `tgl_lahir`, `agama`, `jenis_kelamin`, `status`, `batas_revisi`, `id_akun`, `tinggi_badan`, `berat_badan`, `created_at`) VALUES
-(1, 'Budi Santoso', 'Bandung', '08123456789', 'budi@gmail.com', '2002-05-12', 'Islam', 'L', 'peserta', NULL, 1, 170, 65, '2026-02-20 07:28:36'),
-(2, 'Andi Wijaya', 'Garut', '08222222222', 'andi@gmail.com', '2001-02-02', 'Islam', 'L', 'terverifikasi', NULL, NULL, 168, 60, '2026-02-20 07:28:36'),
-(4, 'Shofa Azmy', 'Kudus', '087735215545', 'shofaazmy27@gmail.com', '2006-02-16', 'Islam', 'L', 'peserta', NULL, 7, 170, 60, '2026-03-26 00:05:08');
+(1, 'Budi Santoso', 'Jl. Magelang No. 45, Mlati, Sleman, DIY', '081234567891', 'budi.santoso@email.com', '1998-05-14', 'Islam', 'L', 'lulus', NULL, 7, 172, 68, '2024-01-10 00:30:00'),
+(2, 'Agus Wijaya', 'Jl. Palagan Tentara Pelajar No. 12, Sleman, DIY', '081234567892', 'agus.wijaya@email.com', '1999-08-22', 'Islam', 'L', 'lulus', NULL, 8, 168, 65, '2024-01-10 01:15:00'),
+(3, 'Siti Rahayu', 'Jl. Godean KM 5, Gamping, Sleman, DIY', '081234567893', 'siti.rahayu@email.com', '2000-03-17', 'Islam', 'P', 'lulus', NULL, 9, 158, 52, '2024-06-12 00:45:00'),
+(4, 'Hendra Purnomo', 'Jl. Wates KM 8, Kulon Progo, DIY', '081234567894', 'hendra.purnomo@email.com', '1997-11-30', 'Islam', 'L', 'tidak_lulus', NULL, 10, 170, 72, '2024-06-12 01:30:00'),
+(5, 'Eko Prasetyo', 'Jl. Bantul No. 33, Bantul, DIY', '081234567895', 'eko.prasetyo@email.com', '2001-07-08', 'Islam', 'L', 'lulus', NULL, 11, 175, 70, '2025-01-18 02:00:00'),
+(6, 'Dewi Kusuma', 'Jl. Solo KM 10, Kalasan, Sleman, DIY', '081234567896', 'dewi.kusuma@email.com', '2002-12-25', 'Kristen', 'P', 'peserta', NULL, 12, 160, 55, '2026-03-20 01:00:00'),
+(7, 'Rizki Firmansyah', 'Jl. Wonosari No. 17, Gunungkidul, DIY', '081234567897', 'rizki.firmansyah@email.com', '2000-09-03', 'Islam', 'L', 'peserta', NULL, 13, 178, 75, '2026-03-21 02:30:00');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `akun`
+-- Indeks untuk tabel `akun`
 --
 ALTER TABLE `akun`
   ADD PRIMARY KEY (`id_akun`),
   ADD UNIQUE KEY `username` (`username`);
 
 --
--- Indexes for table `dokumen_pendaftaran`
+-- Indeks untuk tabel `dokumen_pendaftaran`
 --
 ALTER TABLE `dokumen_pendaftaran`
   ADD PRIMARY KEY (`id_dokumen`),
   ADD UNIQUE KEY `unique_dokumen` (`id_siswa`,`jenis`);
 
 --
--- Indexes for table `evaluasi`
+-- Indeks untuk tabel `evaluasi`
 --
 ALTER TABLE `evaluasi`
   ADD PRIMARY KEY (`id_evaluasi`),
@@ -321,192 +389,93 @@ ALTER TABLE `evaluasi`
   ADD KEY `fk_evaluasi_periode` (`id_periode`);
 
 --
--- Indexes for table `informasi_diklat`
+-- Indeks untuk tabel `informasi_diklat`
 --
 ALTER TABLE `informasi_diklat`
   ADD PRIMARY KEY (`id_info`),
   ADD UNIQUE KEY `unique_info_periode` (`id_periode`);
 
 --
--- Indexes for table `jadwal_diklat`
+-- Indeks untuk tabel `jadwal_diklat`
 --
 ALTER TABLE `jadwal_diklat`
-  ADD PRIMARY KEY (`id_jadwal`),
-  ADD UNIQUE KEY `unique_jadwal` (`id_periode`,`tanggal`,`kegiatan`);
+  ADD PRIMARY KEY (`id_jadwal`);
 
 --
--- Indexes for table `laporan`
+-- Indeks untuk tabel `laporan`
 --
 ALTER TABLE `laporan`
-  ADD PRIMARY KEY (`id_laporan`),
-  ADD KEY `fk_laporan_periode` (`id_periode`);
+  ADD PRIMARY KEY (`id_laporan`);
 
 --
--- Indexes for table `laporan_polda`
---
-ALTER TABLE `laporan_polda`
-  ADD PRIMARY KEY (`id_laporan_polda`),
-  ADD UNIQUE KEY `unique_laporan_polda_periode` (`id_periode`),
-  ADD KEY `fk_laporanpolda_akun` (`id_akun_polda`);
-
---
--- Indexes for table `notifikasi`
+-- Indeks untuk tabel `notifikasi`
 --
 ALTER TABLE `notifikasi`
-  ADD PRIMARY KEY (`id_notifikasi`),
-  ADD KEY `fk_notifikasi_siswa` (`id_siswa`);
+  ADD PRIMARY KEY (`id_notifikasi`);
 
 --
--- Indexes for table `periode_diklat`
+-- Indeks untuk tabel `periode_diklat`
 --
 ALTER TABLE `periode_diklat`
   ADD PRIMARY KEY (`id_periode`);
 
 --
--- Indexes for table `peserta_periode`
---
-ALTER TABLE `peserta_periode`
-  ADD PRIMARY KEY (`id_peserta_periode`),
-  ADD UNIQUE KEY `unique_peserta_periode` (`id_peserta`,`id_periode`),
-  ADD KEY `fk_pp_periode` (`id_periode`);
-
---
--- Indexes for table `siswa`
+-- Indeks untuk tabel `siswa`
 --
 ALTER TABLE `siswa`
-  ADD PRIMARY KEY (`id_peserta`),
-  ADD UNIQUE KEY `id_akun` (`id_akun`);
+  ADD PRIMARY KEY (`id_peserta`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `akun`
+-- AUTO_INCREMENT untuk tabel `akun`
 --
 ALTER TABLE `akun`
-  MODIFY `id_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT for table `dokumen_pendaftaran`
+-- AUTO_INCREMENT untuk tabel `dokumen_pendaftaran`
 --
 ALTER TABLE `dokumen_pendaftaran`
-  MODIFY `id_dokumen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_dokumen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
--- AUTO_INCREMENT for table `evaluasi`
+-- AUTO_INCREMENT untuk tabel `evaluasi`
 --
 ALTER TABLE `evaluasi`
-  MODIFY `id_evaluasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_evaluasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `informasi_diklat`
---
-ALTER TABLE `informasi_diklat`
-  MODIFY `id_info` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `jadwal_diklat`
+-- AUTO_INCREMENT untuk tabel `jadwal_diklat`
 --
 ALTER TABLE `jadwal_diklat`
-  MODIFY `id_jadwal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_jadwal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- AUTO_INCREMENT for table `laporan`
+-- AUTO_INCREMENT untuk tabel `laporan`
 --
 ALTER TABLE `laporan`
-  MODIFY `id_laporan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_laporan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `laporan_polda`
---
-ALTER TABLE `laporan_polda`
-  MODIFY `id_laporan_polda` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `notifikasi`
+-- AUTO_INCREMENT untuk tabel `notifikasi`
 --
 ALTER TABLE `notifikasi`
-  MODIFY `id_notifikasi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_notifikasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `periode_diklat`
+-- AUTO_INCREMENT untuk tabel `periode_diklat`
 --
 ALTER TABLE `periode_diklat`
-  MODIFY `id_periode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_periode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `peserta_periode`
---
-ALTER TABLE `peserta_periode`
-  MODIFY `id_peserta_periode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `siswa`
+-- AUTO_INCREMENT untuk tabel `siswa`
 --
 ALTER TABLE `siswa`
-  MODIFY `id_peserta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `dokumen_pendaftaran`
---
-ALTER TABLE `dokumen_pendaftaran`
-  ADD CONSTRAINT `fk_dokumen_siswa` FOREIGN KEY (`id_siswa`) REFERENCES `siswa` (`id_peserta`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `evaluasi`
---
-ALTER TABLE `evaluasi`
-  ADD CONSTRAINT `fk_evaluasi_periode` FOREIGN KEY (`id_periode`) REFERENCES `periode_diklat` (`id_periode`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_evaluasi_siswa` FOREIGN KEY (`id_siswa`) REFERENCES `siswa` (`id_peserta`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `informasi_diklat`
---
-ALTER TABLE `informasi_diklat`
-  ADD CONSTRAINT `informasi_diklat_ibfk_1` FOREIGN KEY (`id_periode`) REFERENCES `periode_diklat` (`id_periode`) ON DELETE CASCADE;
-
---
--- Constraints for table `jadwal_diklat`
---
-ALTER TABLE `jadwal_diklat`
-  ADD CONSTRAINT `fk_jadwal_periode` FOREIGN KEY (`id_periode`) REFERENCES `periode_diklat` (`id_periode`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `laporan`
---
-ALTER TABLE `laporan`
-  ADD CONSTRAINT `fk_laporan_periode` FOREIGN KEY (`id_periode`) REFERENCES `periode_diklat` (`id_periode`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `laporan_polda`
---
-ALTER TABLE `laporan_polda`
-  ADD CONSTRAINT `fk_laporanpolda_akun` FOREIGN KEY (`id_akun_polda`) REFERENCES `akun` (`id_akun`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_laporanpolda_periode` FOREIGN KEY (`id_periode`) REFERENCES `periode_diklat` (`id_periode`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `notifikasi`
---
-ALTER TABLE `notifikasi`
-  ADD CONSTRAINT `fk_notifikasi_siswa` FOREIGN KEY (`id_siswa`) REFERENCES `siswa` (`id_peserta`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `peserta_periode`
---
-ALTER TABLE `peserta_periode`
-  ADD CONSTRAINT `fk_pp_periode` FOREIGN KEY (`id_periode`) REFERENCES `periode_diklat` (`id_periode`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_pp_peserta` FOREIGN KEY (`id_peserta`) REFERENCES `siswa` (`id_peserta`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `siswa`
---
-ALTER TABLE `siswa`
-  ADD CONSTRAINT `fk_siswa_akun` FOREIGN KEY (`id_akun`) REFERENCES `akun` (`id_akun`) ON DELETE CASCADE ON UPDATE CASCADE;
+  MODIFY `id_peserta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
