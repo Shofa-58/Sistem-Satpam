@@ -156,12 +156,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <img src="img/logo.png" alt="Logo" style="height:28px;width:auto;margin-right:8px;vertical-align:middle;">
         <?php
         echo match($role) {
-            'admin'           => '⚙️ Admin Gemilang',
-            'ceo'             => '🏢 CEO Gemilang',
-            'kepala_keamanan' => '🛡️ Kepala Keamanan',
-            'polda'           => '🚔 Polda DIY',
-            'publikasi'       => '📢 Publikasi',
-            default           => '🏠 Gemilang'
+            'admin'           => 'Admin Gemilang',
+            'ceo'             => 'CEO Gemilang',
+            'kepala_keamanan' => 'Kepala Keamanan',
+            'polda'           => 'Polda DIY',
+            'publikasi'       => 'Publikasi',
+            default           => 'Gemilang'
         };
         ?>
     </a>
